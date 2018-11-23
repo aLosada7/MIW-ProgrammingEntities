@@ -3,7 +3,7 @@ $(document).ready(function(){
 
 })
 
-function validate() {
+function validateForm() {
   let valido = true;
   email = contactForm.email.value;
   if (email == '') {

@@ -4,6 +4,7 @@
 	<title>Programación Orientada a Objetos</title>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
@@ -41,7 +42,7 @@
 						        </button>
 						      </div>
 						      <div class="modal-body">
-										<form name="contactForm" onsubmit="validate()">
+										<form action="#" name="contactForm" onsubmit="return validateForm()">
 											<div class="form-group">
 										    <label for="exampleInputEmail1">Email address</label>
 										    <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email">
@@ -81,8 +82,10 @@
 				  <div class="card-body">
 				    <div class="row">
 				    	<div class="col">
-								<h4>Entitys</h4>
+								<h4>Entities</h4>
+								<span class="badge badge-secondary badge-success">Episode</span>
 								<span class="badge badge-secondary badge-success">TVSeries</span>
+								<span class="badge badge-secondary badge-success">Movie</span>
 				    		<h4>Choose the action</h4>
 				    		<button type="button" class="btn btn-secondary btn-block" id="getEntitys">GET entitys</button>
 				    		<button type="button" class="btn btn-secondary btn-block" id="getEntity">GET entity</button>
@@ -94,7 +97,7 @@
 				    	<div class="col" id="panelExecution">
 								<div class="card">
 							  <div class="card-body">
-								<form name="requestForm" onsubmit="processForm()">
+								<form name="requestForm">
 									<div class="form-group">
 											<div class="form-group">
 											 <label for="chooseResponseType">Response context type</label>
@@ -111,20 +114,45 @@
 											 <div id="selectEntityParameter">
 												 <div class="form-group">
 											     <label for="chooseEntity">Entity</label>
-											     <input type="text" class="form-control" id="entitySelected">
+											     <select class="form-control" name="entitySelected" id="entitySelected">
+											      <option>TVSeries</option>
+											      <option>Episode</option>
+											      <option>Movie</option>
+											    </select>
 											   </div>
 											 </div>
 											 <div id="selectIDParameter">
 												 <div class="form-group">
 													<label for="chooseID">ID</label>
-													<input type="text" class="form-control" id="IDSelected">
+													<input type="text" class="form-control" name="IDSelected" id="IDSelected">
 												</div>
 											 </div>
 												<div id="createParameters">
- 													Params<input type="text"/>
+ 													<div class="form-group">
+													  <label for="post">Introduce POST:</label>
+													  <textarea class="form-control" rows="10" name="jsonpost" id="jsonpost"></textarea>
+													</div>
+												</div>
+												<div id="editParameters">
+ 													<div class="form-group">
+													  <label for="id">ID</label>
+													  <input type="text" class="form-control" name="editID" id="editID"></input>
+													</div>
+													<div class="form-group">
+													  <label for="id">Number of episodes</label>
+													  <input class="form-control" type="text" name="editNEpisodes" id="editNEpisodes"></input>
+													</div>
+													<div class="form-group">
+													  <label for="id">Number of seasons</label>
+													  <input type="text" class="form-control" name="editNSeasons" id="editNSeasons"></input>
+													</div>
+													<div class="form-group">
+													  <label for="id">Start Date</label>
+													  <input type="text" class="form-control" name="editStartDate" id="editStartDate"></input>
+													</div>
  											 </div>
 										 </div>
-										 <input type="submit" class="btn btn-primary" value="Run it"/>
+										 <button type="button" class="btn btn-primary" onclick="processForm()">Run it </button>
 									 </div>
 								 </form>
 							 </div>
@@ -136,11 +164,23 @@
 				</div><br>
 	   	<div class="card">
 		  <div class="card-body">
-		    <div class="response"></div>
+		  	<div class="row">
+				<div class="col">
+					<textarea id="response" rows="15" class="form-control"></textarea>
+				</div>
+				<div class="col">
+					<div class="form-group">
+						<label for="serverCode">Server Code</label>
+						<input type="text" class="form-control" name="serverCode" id="serverCode" disabled>
+					</div>
+				</div>
+			</div>
+		    
 		  </div>
 </div>
 	</div>
   <script type="application/javascript" src="validateForm.js"></script>
   <script type="application/javascript" src="javascript.js"></script>
+  <script type="application/javascript" src="operaciones.js"></script>
 </body>
 </html>
