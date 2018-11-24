@@ -1,18 +1,17 @@
 class operaciones{
 
 	getEntities(locationServer){
-		$.get(locationServer+"/getEntities/", function (response) {
+		$.get(locationServer+"/", function (response) {
 	      console.log(response);
-	      $("#response").html(JSON.stringify(response.series, undefined, 2));
-	      console.log(response.status);
-	      $("#serverCode").val(response.status);
+	      $("#response").html(response);
+	      $("#serverCode").val(200);
 	    });
 	}
 
 	getEntity(locationServer,entity){
 		console.log("aqui");
-		$.get(locationServer+"/getEntity/"+entity, function (response) {
-			console.log("aqui");
+		$.get(locationServer+"/"+entity, function (response) {
+			console.log(response);
 			if(locationServer=="http://156.35.95.85:8082"){
 				let data=JSON.parse(response);
 				console.log(data);
@@ -29,7 +28,7 @@ class operaciones{
 	postEntity(locationServer,post){
 		$.ajax({
 		    // la URL para la petición
-		    url : locationServer+'/postEntity/',
+		    url : locationServer+"/",
 		 
 		    // la información a enviar
 		    // (también es posible utilizar una cadena de datos)
@@ -88,9 +87,9 @@ class operaciones{
 		});
 	}
 
-	getEntityID(locationServer,id){
+	getEntityID(locationServer,id,entity){
 		console.log("aqui");
-		$.get(locationServer+"/getEntityID/", {"id":id}, function (response) {
+		$.get(locationServer+"/"+entity+"/"+id, function (response) {
 			 console.log(response);
 			if(locationServer=="http://156.35.95.85:8082"){
 				let data=JSON.parse(response);
@@ -105,12 +104,11 @@ class operaciones{
 	    });
 	}
 
-	deleteEntityID(locationServer,id,password){
+	deleteEntityID(locationServer,entity,id,password){
 		$.ajax({
 		    // la URL para la petición
-		    url : locationServer+'/deleteEntityID/',
-		 	data : { id : id,
-		 	password : password },
+		    url : locationServer+'/',
+		 	data : { entity: entity, id : id, password : password },
 		 	type : 'DELETE',
 
 		    // código a ejecutar si la petición es satisfactoria;

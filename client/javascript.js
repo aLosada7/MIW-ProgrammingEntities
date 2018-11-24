@@ -48,10 +48,10 @@ document.getElementById('jsonpost').value = pretty;
     $('#putEntityID').on('click', function () {
       $("#panelExecution").show();
       $("#noParameters").hide();
-      $("#selectEntityParameter").hide();
-      $("#selectIDParameter").hide();
+      $("#selectEntityParameter").show();
+      $("#selectIDParameter").show();
       $("#createParameters").hide();
-      $("#editParameters").show();
+      $("#editParameters").hide();
       action=4;
     })
     $('#getEntityID').on('click', function () {
@@ -66,7 +66,7 @@ document.getElementById('jsonpost').value = pretty;
     $('#deleteEntityID').on('click', function () {
       $("#panelExecution").show();
       $("#noParameters").hide();
-      $("#selectEntityParameter").hide();
+      $("#selectEntityParameter").show();
       $("#selectIDParameter").show();
       $("#createParameters").hide();
       $("#editParameters").hide();
@@ -122,14 +122,16 @@ function processForm(){
       break;
     case 5:
       var id=$('#IDSelected').val();
+       var entity=$('#entitySelected').val();
       console.log(id);
-      operacion.getEntityID(locationServer,id);
+      operacion.getEntityID(locationServer,id,entity);
       break;
     case 6:
-      let password = prompt("Introduce your password for deleting an Entity");
+      let password = prompt("Introduce your password for deleting an Entity","passworddelete");
       var id=$('#IDSelected').val();
+      var entity=$('#entitySelected').val();
       console.log(id);
-      operacion.deleteEntityID(locationServer,id,password);
+      operacion.deleteEntityID(locationServer,entity,id,password);
       
       break;
   }

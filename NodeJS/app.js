@@ -17,18 +17,13 @@ fs.readFile('TVSeries.json', 'utf8', function (err, data) {
 
 
 app.get('/', function (req, res) {
-  console.log("aqui");
+  res.header("Access-Control-Allow-Origin", "*");
+	res.send("Especificación API");
 });
 
-app.get('/getEntities', function(req,res) {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.status(200).send({series, "status" : 200});
-
-});
-
-app.get('/getEntity/:entity', function (req, res) {
-	res.header("Access-Control-Allow-Origin", "*");
-	var listEntities=[]
+app.get('/:entity', function (req, res) {
+	
+	var listEntities=[];
   console.log('Entity:', req.params.entity);
   for (let i = 0; i < series.length; i++) {
   	if(series[i]["@type"]==req.params.entity){
@@ -36,15 +31,26 @@ app.get('/getEntity/:entity', function (req, res) {
   		listEntities.push(series[i]);
   	}
   }
+  res.header("Access-Control-Allow-Origin", "*");
   res.status(200).send({listEntities, "status" : 200});
 });
 
-app.post('/postEntity/', function (req, res) {
+app.post('/', function (req, res) {
 	console.log(req.body.newEntity);
-	series.push(req.body.newEntity);
+	let idMax=0;
+	for (let i = 0; i < series.length; i++) {
+	  	if(series[i].id > idMax){
+	  		idMax=series[i].id;
+	  	}
+	}
+	console.log(idMax + " "+req.body.newEntity.id);
+		series.push(req.body.newEntity);
+	
 	console.log(series);
-	res.header("Access-Control-Allow-Origin", "*");
-  	res.status(200).send({"success": "Updated successfully", "status" : 200});
+	fs.writeFile('TVSeries.json', JSON.stringify(series, undefined, 2), (err) => {
+	  if (err) throw err;
+	  console.log('The file has been saved!');
+	});
 });
 
 app.put('/editEntityID/', function (req, res) {
@@ -62,11 +68,12 @@ app.put('/editEntityID/', function (req, res) {
 
 
 
-app.get('/getEntityID/', function (req, res) {
+app.get('/:entity/:id', function (req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
-  console.log('ID:', req.param("id"));
+  console.log('ID:',req.params.id);
+  console.log('Entity:',req.params.entity);
   for (let i = 0; i < series.length; i++) {
-  	if(series[i].id==req.param("id")){
+  	if(series[i].id==req.params.id && series[i]["@type"]==req.params.entity){
   		console.log(series[i]);
   		var result=series[i]
   		res.status(200).send({result, "status" : 200});
@@ -77,13 +84,21 @@ app.get('/getEntityID/', function (req, res) {
 
 
 
-app.delete('/deleteEntityID/', function (req, res) {
-	res.header("Access-Control-Allow-Origin", "*");
+app.delete('/', function (req, res) {
+	console.log('Entity:', req.body.entity);
 	console.log('ID:', req.body.id);
+	if(req.body.password=="passworddelete"){
+		console.log("a borrar");
+	}
 	for (let i = 0; i < series.length; i++) {
-	  	if(series[i].id==req.body.id){
-	  		console.log(series[i]);
-	  		res.status(200).send({"success": "Delete successfully", "status" : 200});
+	  	if(series[i].id==req.body.id && series[i]["@type"]==req.body.entity){
+	  		//console.log(series[i]);
+	  		series.splice(i, 1);
+	  		console.log(series);
+	  		fs.writeFile('TVSeries.json', JSON.stringify(series, undefined, 2), (err) => {
+			  if (err) throw err;
+			  console.log('The file has been saved!');
+			});
 	  		break;
 	  	}
 	  }
