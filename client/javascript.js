@@ -1,4 +1,6 @@
  var action=0;
+   var idGlobal;
+  var entityGlobal;
 $(document).ready(function(){
 
 
@@ -39,7 +41,7 @@ document.getElementById('jsonpost').value = pretty;
     $('#postEntity').on('click', function () {
       $("#panelExecution").show();
       $("#noParameters").hide();
-      $("#selectEntityParameter").hide();
+      $("#selectEntityParameter").show();
       $("#selectIDParameter").hide();
       $("#createParameters").show();
       $("#editParameters").hide();
@@ -72,15 +74,16 @@ document.getElementById('jsonpost').value = pretty;
       $("#editParameters").hide();
       action=6;
     })
-
 })
 
 function processForm(){
   var operacion=new operaciones();
   var server=document.getElementById("server").value;
-  var locationServer=""
+  var locationServer="";
   var answer=requestForm.typeAnswer.value;
   console.log(server + " " + answer + " " + action);
+  let idGlobal;
+  let entityGlobal;
   switch(server){
     case "NodeJS":
     locationServer="http://156.35.95.85:8081";
@@ -107,18 +110,18 @@ function processForm(){
 
     case 3:
     console.log($('#jsonpost').val());
+    var entity=$('#entitySelected').val();
       var post=JSON.parse($('#jsonpost').val());
       console.log(post);
-      operacion.postEntity(locationServer,post);
+      operacion.postEntity(locationServer,entity,post);
       break;
     case 4:
-      var editParameters=["","","",""];
-      editParameters[0]=$('#editID').val();;
-      editParameters[1]=$('#editNEpisodes').val();
-      editParameters[2]=$('#editNSeasons').val();
-      editParameters[3]=$('#editStartDate').val();
-      console.log(editParameters);
-      operacion.putEntityID(locationServer,editParameters);
+      var id=$('#IDSelected').val();
+      idGlobal=id;
+      var entity=$('#entitySelected').val();
+      entityGlobal=entity;
+      operacion.getEditData(locationServer,id,entity);
+      action=7;
       break;
     case 5:
       var id=$('#IDSelected').val();
@@ -133,6 +136,12 @@ function processForm(){
       console.log(id);
       operacion.deleteEntityID(locationServer,entity,id,password);
       
+      break;
+    case 7:
+      let passwordPut = prompt("Introduce your password for updating an Entity","passwordput");
+      var put=JSON.parse($('#jsonput').val());
+      console.log(idGlobal);
+      operacion.putEntityID(locationServer,entityGlobal,idGlobal,put,passwordPut);
       break;
   }
 }

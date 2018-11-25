@@ -17,8 +17,12 @@ fs.readFile('TVSeries.json', 'utf8', function (err, data) {
 
 
 app.get('/', function (req, res) {
-  res.header("Access-Control-Allow-Origin", "*");
-	res.send("Especificación API");
+	console.log(req.headers["accept-language"].substr(0,2));
+ 	res.header("Access-Control-Allow-Origin", "*");
+ 	if(req.headers["accept-language"].substr(0,2) == "es")
+		res.send("Especificación API");
+	else
+		res.send("API Specification");
 });
 
 app.get('/:entity', function (req, res) {
@@ -32,10 +36,10 @@ app.get('/:entity', function (req, res) {
   	}
   }
   res.header("Access-Control-Allow-Origin", "*");
-  res.status(200).send({listEntities, "status" : 200});
+  res.status(200).send(listEntities);
 });
 
-app.post('/', function (req, res) {
+app.post('/:entity', function (req, res) {
 	console.log(req.body.newEntity);
 	let idMax=0;
 	for (let i = 0; i < series.length; i++) {
@@ -51,6 +55,7 @@ app.post('/', function (req, res) {
 	  if (err) throw err;
 	  console.log('The file has been saved!');
 	});
+	res.status(200).send("Updated correctly");
 });
 
 app.put('/editEntityID/', function (req, res) {
@@ -76,7 +81,7 @@ app.get('/:entity/:id', function (req, res) {
   	if(series[i].id==req.params.id && series[i]["@type"]==req.params.entity){
   		console.log(series[i]);
   		var result=series[i]
-  		res.status(200).send({result, "status" : 200});
+  		res.status(200).send(result);
   		break;
   	}
   }
@@ -84,14 +89,12 @@ app.get('/:entity/:id', function (req, res) {
 
 
 
-app.delete('/', function (req, res) {
-	console.log('Entity:', req.body.entity);
-	console.log('ID:', req.body.id);
+app.delete('/:entity/:id', function (req, res) {
+	console.log('Entity:', req.params.entity);
+	console.log('ID:', req.params.id);
 	if(req.body.password=="passworddelete"){
-		console.log("a borrar");
-	}
 	for (let i = 0; i < series.length; i++) {
-	  	if(series[i].id==req.body.id && series[i]["@type"]==req.body.entity){
+	  	if(series[i].id==req.params.id && series[i]["@type"]==req.params.entity){
 	  		//console.log(series[i]);
 	  		series.splice(i, 1);
 	  		console.log(series);
@@ -102,7 +105,9 @@ app.delete('/', function (req, res) {
 	  		break;
 	  	}
 	  }
-
+	}else{
+		console.log("Incorrect password");
+	}
 });
 
 app.listen(8081, function () {
