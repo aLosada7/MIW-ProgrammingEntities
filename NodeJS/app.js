@@ -16,6 +16,39 @@ fs.readFile('TVSeries.json', 'utf8', function (err, data) {
 });
 
 
+
+var nodemailer = require('nodemailer');
+// email sender function
+sendEmail = function(req, res){
+// Definimos el transporter
+    var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'aallvariccoo@gmail.com',
+            pass: '****'
+        }
+    });
+// Definimos el email
+var mailOptions = {
+    from: 'Remitente',
+    to: 'aldc30sc@gmail.com',
+    subject: 'Asunto',
+    text: 'Contenido del email'
+};
+// Enviamos el email
+transporter.sendMail(mailOptions, function(error, info){
+    if (error){
+        console.log(error);
+        res.send(500, error.message);
+    } else {
+        console.log("Email sent");
+        res.status(200).jsonp(req.body);
+    }
+});
+};
+app.post('/email', sendEmail);
+
+
 app.get('/', function (req, res) {
 	console.log(req.headers["accept-language"].substr(0,2));
  	res.header("Access-Control-Allow-Origin", "*");
