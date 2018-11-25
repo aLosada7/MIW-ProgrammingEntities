@@ -1,6 +1,6 @@
  var action=0;
-   var idGlobal;
-  var entityGlobal;
+   var idGlobal=0;
+  var entityGlobal=0;
 $(document).ready(function(){
 
 
@@ -82,8 +82,6 @@ function processForm(){
   var locationServer="";
   var answer=requestForm.typeAnswer.value;
   console.log(server + " " + answer + " " + action);
-  let idGlobal;
-  let entityGlobal;
   switch(server){
     case "NodeJS":
     locationServer="http://156.35.95.85:8081";

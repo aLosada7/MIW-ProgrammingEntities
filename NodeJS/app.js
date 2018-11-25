@@ -58,17 +58,23 @@ app.post('/:entity', function (req, res) {
 	res.status(200).send("Updated correctly");
 });
 
-app.put('/editEntityID/', function (req, res) {
-	res.header("Access-Control-Allow-Origin", "*");
-	console.log('ID:', req.body.edit);
-	for (let i = 0; i < series.length; i++) {
-	  	if(series[i].id==req.body.edit[0]){
-	  		console.log(series[i]);
-	  		
-	  		break;
-	  	}
-	  }
-  	res.status(200).send({"success": "Updated successfully", "status" : 200});
+app.put('/:entity/:id', function (req, res) {
+	if(req.body.password=="passwordput"){
+		console.log('ID:', req.params.id);
+		for (let i = 0; i < series.length; i++) {
+		  	if(series[i].id==req.params.id && series[i]["@type"]==req.params.entity){
+		  		series[i]=req.body.updateEntity;
+		  		console.log(series[i]);
+		  		fs.writeFile('TVSeries.json', JSON.stringify(series, undefined, 2), (err) => {
+				  if (err) throw err;
+				  console.log('The file has been saved!');
+				});
+		  		break;
+		  	}
+		  }
+  	}else{
+		console.log("Incorrect password");
+	}
 });
 
 

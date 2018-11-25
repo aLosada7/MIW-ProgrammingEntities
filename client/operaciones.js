@@ -59,7 +59,7 @@ class operaciones{
 	      	console.log(response);
 	      	$("#selectEntityParameter").hide();
       		$("#selectIDParameter").hide();
-      		$("#showOption").html('<textarea class="form-control" rows="10" name="jsonput" id="jsonput"></textarea><button type="button" class="btn btn-primary" id="#finalPutEntityId">Run it </button>');
+      		$("#showOption").html('<textarea class="form-control" rows="10" name="jsonput" id="jsonput"></textarea>');
       		if(locationServer=="http://156.35.95.85:8082"){
 				let data=JSON.parse(response);
 				console.log(data);
@@ -82,13 +82,11 @@ class operaciones{
 		    // especifica si será una petición POST o GET
 		    type : 'PUT',
 		 
-		    // el tipo de información que se espera de respuesta
-		    dataType : 'json',
-		 
 		    // código a ejecutar si la petición es satisfactoria;
 		    // la respuesta es pasada como argumento a la función
 		    success : function(response) {
-		        console.log("aqui");
+		        console.log(response);
+		        $("#processButton").show();
 		    },
 		 
 		    // código a ejecutar si la petición falla;

@@ -62,6 +62,7 @@
             echo "aqui";
             array_splice($characters, $i, 1);
              file_put_contents($url, json_encode($characters));
+             break;
           }
     }
     /*foreach ($characters as $valor) {
@@ -71,5 +72,15 @@
              file_put_contents($url, json_encode($characters));
           }
       }*/
+  }elseif($_SERVER['REQUEST_METHOD']=="PUT"){
+    $separateURI = explode("/", $_SERVER["REQUEST_URI"]);
+    parse_str(file_get_contents("php://input"),$post_vars);
+    for ($i = 0; $i < sizeof($characters); $i++) {
+        if($characters[$i]["@type"] == $separateURI[1] && $characters[$i]["id"] == $separateURI[2]){
+            $characters[$i]=$post_vars['updateEntity'];
+             file_put_contents($url, json_encode($characters));
+             break;
+          }
+    }
   }
 ?>
