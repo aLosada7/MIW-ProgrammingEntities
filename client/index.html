@@ -106,7 +106,7 @@
 											 </select>
 										 </div>
 
-										 <div id="showOption">
+										 <div id="showOption"></div>
 											 <div id="noParameters">
 													<p>No parameters to show.</p>
 											 </div>
@@ -133,7 +133,7 @@
 													</div>
 												</div>
 												
-										 </div>
+										 
 										 <button type="button" class="btn btn-primary" id="processButton" onclick="processForm()">Run it </button>
 									 </div>
 								 </form>
@@ -146,19 +146,25 @@
 				</div><br>
 	   	<div class="card">
 		  <div class="card-body">
-		  	<div class="row">
-				<div class="col">
-					<textarea id="response" rows="15" class="form-control"></textarea>
-				</div>
-				<div class="col">
-					<div class="form-group">
-						<label for="serverCode">Server Code</label>
-						<input type="text" class="form-control" name="serverCode" id="serverCode" disabled>
+		  	<div id="informationResponse">
+		  		<div class="row">
+					<div class="col">
+						<textarea id="response" rows="15" class="form-control"></textarea>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label for="serverCode">Server Code</label>
+							<input type="text" class="form-control" name="serverCode" id="serverCode" disabled>
+						</div>
+						<div class="form-group">
+							<label for="contentType">Content Type</label>
+							<input type="text" class="form-control" name="contentType" id="contentType" disabled>
+						</div>
 					</div>
 				</div>
-			</div>
-		    
-		  </div>
+		   </div>
+		   <div id="informationGet"></div>
+		</div>
 </div>
 	</div>
   <script type="application/javascript" src="validateForm.js"></script>

@@ -10,30 +10,68 @@ app.use(cors());
 
 var fs = require('fs');
 var series;
-fs.readFile('TVSeries.json', 'utf8', function (err, data) {
+fs.readFile('data.json', 'utf8', function (err, data) {
   if (err) throw err;
   series = JSON.parse(data);
 });
+/*
+const http=require('http');
+const server=http.createServer();
+server.on('request',procesa);
+server.listen(8081);
 
+function procesa(req,res){
+	console.log(req.url);
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	switch(req.method){
+		case 'GET':
+			if(req.url == "/"){
+				console.log(req.headers["accept-language"].substr(0,2));
+			 	if(req.headers["accept-language"].substr(0,2) == "es"){
+					fs.readFile('informacion.html', 'utf8', function (err, data) {
+					  if (err) throw err;
+					  res.write(data);
+					});
+				}else{
+					fs.readFile('information.html', 'utf8', function (err, data) {
+					  if (err) throw err;
+					  res.write(data);
+					});
+				}
+				res.end();
+			}
+			else if(req.url == "/TVSeries"){
+
+			}else if (req.url == "/Article"){
+
+			}else{
+
+			}
+	}
+	
+}
+*/
 
 
 var nodemailer = require('nodemailer');
 // email sender function
-sendEmail = function(req, res){
+app.post('/email', function(req, res){
+
 // Definimos el transporter
     var transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
             user: 'aallvariccoo@gmail.com',
-            pass: '****'
+            pass: 'chispi13'
         }
     });
+
 // Definimos el email
 var mailOptions = {
     from: 'Remitente',
-    to: 'aldc30sc@gmail.com',
-    subject: 'Asunto',
-    text: 'Contenido del email'
+    to: req.body.info[0],
+    subject: 'Confirmación envio consulta',
+    text: 'Hola '+req.body.info[1]+'. Esta es tu consulta: '+req.body.info[2]
 };
 // Enviamos el email
 transporter.sendMail(mailOptions, function(error, info){
@@ -45,17 +83,23 @@ transporter.sendMail(mailOptions, function(error, info){
         res.status(200).jsonp(req.body);
     }
 });
-};
-app.post('/email', sendEmail);
+});
 
 
 app.get('/', function (req, res) {
 	console.log(req.headers["accept-language"].substr(0,2));
  	res.header("Access-Control-Allow-Origin", "*");
- 	if(req.headers["accept-language"].substr(0,2) == "es")
-		res.send("Especificación API");
-	else
-		res.send("API Specification");
+ 	if(req.headers["accept-language"].substr(0,2) == "es"){
+		fs.readFile('informacion.html', 'utf8', function (err, data) {
+		  if (err) throw err;
+		  res.send(data);
+		});
+	}else{
+		fs.readFile('information.html', 'utf8', function (err, data) {
+		  if (err) throw err;
+		  res.send(data);
+		});
+	}
 });
 
 app.get('/:entity', function (req, res) {
@@ -84,11 +128,11 @@ app.post('/:entity', function (req, res) {
 		series.push(req.body.newEntity);
 	
 	console.log(series);
-	fs.writeFile('TVSeries.json', JSON.stringify(series, undefined, 2), (err) => {
+	fs.writeFile('data.json', JSON.stringify(series, undefined, 2), (err) => {
 	  if (err) throw err;
 	  console.log('The file has been saved!');
 	});
-	res.status(200).send("Updated correctly");
+	res.status(200).send("Posted correctly");
 });
 
 app.put('/:entity/:id', function (req, res) {
@@ -98,15 +142,16 @@ app.put('/:entity/:id', function (req, res) {
 		  	if(series[i].id==req.params.id && series[i]["@type"]==req.params.entity){
 		  		series[i]=req.body.updateEntity;
 		  		console.log(series[i]);
-		  		fs.writeFile('TVSeries.json', JSON.stringify(series, undefined, 2), (err) => {
+		  		fs.writeFile('data.json', JSON.stringify(series, undefined, 2), (err) => {
 				  if (err) throw err;
 				  console.log('The file has been saved!');
+				  res.status(200).send("Updated correctly");
 				});
 		  		break;
 		  	}
 		  }
   	}else{
-		console.log("Incorrect password");
+		res.send("Incorrect password");
 	}
 });
 
@@ -137,15 +182,16 @@ app.delete('/:entity/:id', function (req, res) {
 	  		//console.log(series[i]);
 	  		series.splice(i, 1);
 	  		console.log(series);
-	  		fs.writeFile('TVSeries.json', JSON.stringify(series, undefined, 2), (err) => {
+	  		fs.writeFile('data.json', JSON.stringify(series, undefined, 2), (err) => {
 			  if (err) throw err;
 			  console.log('The file has been saved!');
+			  res.status(200).send("Delete correctly");
 			});
 	  		break;
 	  	}
 	  }
 	}else{
-		console.log("Incorrect password");
+		res.send("Wrong password");
 	}
 });
 

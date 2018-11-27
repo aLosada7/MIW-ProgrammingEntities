@@ -3,7 +3,7 @@
     "@context": "http://schema.org",
     "@type": "TVSeries",
     "id": "1",
-    "numberOfEpisodes": "40",
+    "numberOfEpisodes": "42",
     "numberOfSeasons": "3",
     "startDate": "2017-10-15",
     "episode": {
@@ -15,7 +15,7 @@
     "@context": "http://schema.org",
     "@type": "TVSeries",
     "id": "2",
-    "numberOfEpisodes": "16",
+    "numberOfEpisodes": "18",
     "numberOfSeasons": "2",
     "startDate": "2017-10-15"
   },

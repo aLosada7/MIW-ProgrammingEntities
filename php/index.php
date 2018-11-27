@@ -1,5 +1,5 @@
 <?php 
-  $url = 'TVSeries.json'; // path to your JSON file
+  $url = 'data.json'; // path to your JSON file
   $data = file_get_contents($url); // put the contents of the file into a variable
   $characters = json_decode($data,true); // decode the JSON feed
 	header("Access-Control-Allow-Origin: *");
@@ -11,11 +11,13 @@
 
   if($_SERVER['REQUEST_METHOD']=="GET"){
     if($_SERVER["REQUEST_URI"] == "/"){
-      $language=substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],2);
+      $language=substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
       if($language=="es"){
-        echo "Especificación API";
+        $urlInformationEs = 'informacion.html'; // path to your JSON file
+        echo file_get_contents($urlInformationEs);
       }else{
-        echo "API Specification";
+        $urlInformationEn = 'information.html'; // path to your JSON file
+        echo file_get_contents($urlInformationEn);
       }
     }elseif($_SERVER["REQUEST_URI"] == "/TVSeries") { //means getentity
       $listEntities=array();
@@ -51,20 +53,23 @@
   		//echo json_encode($data);
     }
 	}elseif($_SERVER['REQUEST_METHOD']=="POST"){
-      print_r($_POST["newEntity"]);
       array_push($characters, $_POST["newEntity"]);
       print_r($characters);
       file_put_contents($url, json_encode($characters));
+      echo "Posted correctly";
   }elseif($_SERVER['REQUEST_METHOD']=="DELETE"){
    $separateURI = explode("/", $_SERVER["REQUEST_URI"]);
+   parse_str(file_get_contents("php://input"),$post_vars);
+    if($post_vars['password'] == "passworddelete"){
     for ($i = 0; $i < sizeof($characters); $i++) {
         if($characters[$i]["@type"] == $separateURI[1] && $characters[$i]["id"] == $separateURI[2]){
-            echo "aqui";
             array_splice($characters, $i, 1);
              file_put_contents($url, json_encode($characters));
+              echo "Delete correctly";
              break;
           }
     }
+  }
     /*foreach ($characters as $valor) {
           if($valor["@type"] == $_POST["entity"] && $valor->id){
             //echo json_encode($valor);
@@ -75,12 +80,15 @@
   }elseif($_SERVER['REQUEST_METHOD']=="PUT"){
     $separateURI = explode("/", $_SERVER["REQUEST_URI"]);
     parse_str(file_get_contents("php://input"),$post_vars);
-    for ($i = 0; $i < sizeof($characters); $i++) {
-        if($characters[$i]["@type"] == $separateURI[1] && $characters[$i]["id"] == $separateURI[2]){
-            $characters[$i]=$post_vars['updateEntity'];
-             file_put_contents($url, json_encode($characters));
-             break;
-          }
+    if($post_vars['password'] == "passwordput"){
+      for ($i = 0; $i < sizeof($characters); $i++) {
+          if($characters[$i]["@type"] == $separateURI[1] && $characters[$i]["id"] == $separateURI[2]){
+              $characters[$i]=$post_vars['updateEntity'];
+               file_put_contents($url, json_encode($characters));
+               echo "Updated correctly";
+               break;
+            }
+        }
     }
   }
 ?>

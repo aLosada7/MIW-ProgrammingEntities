@@ -103,7 +103,7 @@ function processForm(){
     case 2:
       var entity=$('#entitySelected').val();
       console.log(entity);
-      operacion.getEntity(locationServer,entity);
+      operacion.getEntity(locationServer,answer,entity);
       break;
 
     case 3:
@@ -125,7 +125,7 @@ function processForm(){
       var id=$('#IDSelected').val();
        var entity=$('#entitySelected').val();
       console.log(id);
-      operacion.getEntityID(locationServer,id,entity);
+      operacion.getEntityID(locationServer,answer,id,entity);
       break;
     case 6:
       let password = prompt("Introduce your password for deleting an Entity","passworddelete");
