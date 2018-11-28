@@ -41,36 +41,37 @@
 						          <span aria-hidden="true">&times;</span>
 						        </button>
 						      </div>
-						      <div class="modal-body">
-										<form action="#" name="contactForm" onsubmit="return validateForm()">
+						      <form action="#" name="contactForm" onsubmit="return validateForm()">
+						      	<div class="modal-body">
+										
 											<div class="form-group">
-										    <label for="exampleInputEmail1">Email address</label>
-										    <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email">
-										    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-										  </div><hr>
+											    <label for="email">Email address</label>
+											    <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+											    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+										  	</div><hr>
 											<div class="form-group">
-										    <label for="formGroupExampleInput">Name</label>
-										    <input type="text" class="form-control" name="name" id="name" placeholder="Your name">
-										  </div>
-										  <div class="form-group">
-										    <label for="formGroupExampleInput2">Surnames</label>
-										    <input type="text" class="form-control" name="surnames" id="surnames" placeholder="Your surnames">
-										  </div>
+											    <label for="name">Name</label>
+											    <input type="text" class="form-control" name="name" id="name" placeholder="Your name">
+											 </div>
+											  <div class="form-group">
+											    <label for="surnames">Surnames</label>
+											    <input type="text" class="form-control" name="surnames" id="surnames" placeholder="Your surnames">
+											  </div>
 											<div class="form-group">
-										    <label for="formGroupExampleInput2">Phone number</label>
-										    <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="Your phone number">
-										  </div><hr>
+											    <label for="phoneNumber">Phone number</label>
+											    <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="Your phone number">
+											</div><hr>
 											<div class="form-group">
-										    <label for="exampleTextarea">Your consult</label>
-										    <textarea class="form-control" name="consult" id="consult" rows="3" placeholder="Write here your consult"></textarea>
-										  </div>
+											    <label for="consult">Your consult</label>
+											    <textarea class="form-control" name="consult" id="consult" rows="3" placeholder="Write here your consult"></textarea>
+										  	</div>
 											<p style="text-align:center;color:red;" class="errorContactForm">Wrong data introduced.</p>
-						      </div>
-						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						        <button type="submit" class="btn btn-primary">Send</button>
-										</form>
-						      </div>
+						      	</div>
+							    <div class="modal-footer">
+							        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							        <button type="submit" class="btn btn-primary">Send</button>
+								</div>
+							</form>
 						    </div>
 						  </div>
 						</div>
@@ -99,11 +100,17 @@
 								<form name="requestForm">
 									<div class="form-group">
 											<div class="form-group">
-											 <label for="chooseResponseType">Response context type</label>
+											 <label for="typeAnswer">Response context type</label>
 											 <select class="form-control" id="typeAnswer" name="typeAnswer">
 												 <option>application/json</option>
 												 <option>text/html</option>
 											 </select>
+											 <select class="form-control" id="typeAnswerJson" name="typeAnswer">
+												 <option>application/json</option>
+											 </select>
+                       						<select class="form-control" id="typeAnswerHtml" name="typeAnswer">
+   												 <option>text/html</option>
+   											 </select>
 										 </div>
 
 										 <div id="showOption"></div>
@@ -112,23 +119,22 @@
 											 </div>
 											 <div id="selectEntityParameter">
 												 <div class="form-group">
-											     <label for="chooseEntity">Entity</label>
+											     <label for="entitySelected">Entity</label>
 											     <select class="form-control" name="entitySelected" id="entitySelected">
 											      <option>TVSeries</option>
 											      <option>Article</option>
-											      <option>Movie</option>
 											    </select>
 											   </div>
 											 </div>
 											 <div id="selectIDParameter">
 												 <div class="form-group">
-													<label for="chooseID">ID</label>
+													<label for="IDSelected">ID</label>
 													<input type="text" class="form-control" name="IDSelected" id="IDSelected">
 												</div>
 											 </div>
 												<div id="createParameters">
  													<div class="form-group">
-													  <label for="post">Introduce POST:</label>
+													  <label for="jsonpost">Introduce POST:</label>
 													  <textarea class="form-control" rows="10" name="jsonpost" id="jsonpost"></textarea>
 													</div>
 												</div>
@@ -167,8 +173,8 @@
 		</div>
 </div>
 	</div>
-  <script type="application/javascript" src="validateForm.js"></script>
-  <script type="application/javascript" src="javascript.js"></script>
-  <script type="application/javascript" src="operaciones.js"></script>
+  <script src="validateForm.js"></script>
+  <script src="javascript.js"></script>
+  <script src="operaciones.js"></script>
 </body>
 </html>

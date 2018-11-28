@@ -8,22 +8,22 @@ class operaciones{
 	    });
 	}
 
-	getEntity(locationServer,answer,entity){
+	getEntity(locationServer,server,answer,entity){
 		console.log("aqui");
 		$.get(locationServer+"/"+entity, function (response) {
 			console.log(response);
 			$("#informationGet").html("");
 	      $("#informationResponse").show();
-			if(locationServer=="http://156.35.95.85:8082"){
+			if(server=="NodeJS"){
+				$("#response").html(JSON.stringify(response, undefined, 2));
+			}else{
 				let data=JSON.parse(response);
 				console.log(data);
 				$("#response").html(JSON.stringify(data, undefined, 2));
-			}else{
-	      console.log(response);
-	      $("#response").html(JSON.stringify(response, undefined, 2));
+			}
 	      $("#serverCode").val("200");
 	      
-	  }
+	  
 	    });
 	    $("#contentType").val(answer);
 	}
@@ -35,7 +35,7 @@ class operaciones{
 		 
 		    // la información a enviar
 		    // (también es posible utilizar una cadena de datos)
-		    data : { newEntity : post },
+		    data : { newEntity : post },//JSON.stringify(post),
 		 
 		    // especifica si será una petición POST o GET
 		    type : 'POST',
@@ -97,21 +97,26 @@ class operaciones{
 		});
 	}
 
-	getEntityID(locationServer,answer,id,entity){
+	getEntityID(locationServer,server,answer,id,entity){
 		console.log("aqui");
 		$.get(locationServer+"/"+entity+"/"+id, function (response) {
 			 console.log(response);
-			if(locationServer=="http://156.35.95.85:8082"){
-				let data=JSON.parse(response);
-				console.log(data);
-				$("#response").html(JSON.stringify(data, undefined, 2));
-			}else{
-	      console.log(response);
-	      $("#response").html(JSON.stringify(response, undefined, 2));
+			if(response =="Wrong id introduced"){
+				$("#response").html(response);
+			}
+			else{
+				if(server=="NodeJS"){
+					$("#response").html(JSON.stringify(response, undefined, 2));
+				}else{
+					let data=JSON.parse(response);
+					console.log(data);
+					$("#response").html(JSON.stringify(data, undefined, 2));
+				}
+			}
 	      $("#serverCode").val("200");
 	      $("#informationGet").html("");
 	      $("#informationResponse").show();
-	  }
+	  
 	    });
 	    $("#contentType").val(answer);
 	}

@@ -27,6 +27,10 @@ document.getElementById('jsonpost').value = pretty;
         ).hide();
       $("#createParameters").hide();
       $("#editParameters").hide();
+      $("#typeAnswer").hide();
+      $("#typeAnswerJson").hide();
+      $("#typeAnswerHtml").show();
+
       action=1;
     })
     $('#getEntity').on('click', function () {
@@ -36,6 +40,9 @@ document.getElementById('jsonpost').value = pretty;
       $("#selectIDParameter").hide();
       $("#createParameters").hide();
       $("#editParameters").hide();
+            $("#typeAnswer").show();
+      $("#typeAnswerJson").hide();
+      $("#typeAnswerHtml").hide();
       action=2;
     })
     $('#postEntity').on('click', function () {
@@ -45,6 +52,9 @@ document.getElementById('jsonpost').value = pretty;
       $("#selectIDParameter").hide();
       $("#createParameters").show();
       $("#editParameters").hide();
+            $("#typeAnswer").hide();
+      $("#typeAnswerJson").show();
+      $("#typeAnswerHtml").hide();
       action=3;
     })
     $('#putEntityID').on('click', function () {
@@ -54,6 +64,9 @@ document.getElementById('jsonpost').value = pretty;
       $("#selectIDParameter").show();
       $("#createParameters").hide();
       $("#editParameters").hide();
+            $("#typeAnswer").hide();
+      $("#typeAnswerJson").show();
+      $("#typeAnswerHtml").hide();
       action=4;
     })
     $('#getEntityID').on('click', function () {
@@ -63,6 +76,9 @@ document.getElementById('jsonpost').value = pretty;
       $("#selectIDParameter").show();
       $("#createParameters").hide();
       $("#editParameters").hide();
+            $("#typeAnswer").show();
+      $("#typeAnswerJson").hide();
+      $("#typeAnswerHtml").hide();
       action=5;
     })
     $('#deleteEntityID').on('click', function () {
@@ -72,6 +88,9 @@ document.getElementById('jsonpost').value = pretty;
       $("#selectIDParameter").show();
       $("#createParameters").hide();
       $("#editParameters").hide();
+            $("#typeAnswer").hide();
+      $("#typeAnswerJson").show();
+      $("#typeAnswerHtml").hide();
       action=6;
     })
 })
@@ -103,7 +122,7 @@ function processForm(){
     case 2:
       var entity=$('#entitySelected').val();
       console.log(entity);
-      operacion.getEntity(locationServer,answer,entity);
+      operacion.getEntity(locationServer,server,answer,entity);
       break;
 
     case 3:
@@ -125,7 +144,7 @@ function processForm(){
       var id=$('#IDSelected').val();
        var entity=$('#entitySelected').val();
       console.log(id);
-      operacion.getEntityID(locationServer,answer,id,entity);
+      operacion.getEntityID(locationServer,server,answer,id,entity);
       break;
     case 6:
       let password = prompt("Introduce your password for deleting an Entity","passworddelete");

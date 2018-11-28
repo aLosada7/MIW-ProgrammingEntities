@@ -25,5 +25,14 @@
     "id": "1",
     "name": "Real Madrid loses against Eibar",
     "articleSection": "Sports"
+  },
+  "{\"@context\":\"http://schema.org\",\"@type\":\"TVSeries\",\"id\":\"3\",\"numberOfEpisodes\":\"integer\",\"numberOfSeasons\":\"integer\",\"startDate\":\"date\"}",
+  {
+    "@context": "http://schema.org",
+    "@type": "TVSeries",
+    "id": "3",
+    "numberOfEpisodes": "integer",
+    "numberOfSeasons": "integer",
+    "startDate": "date"
   }
 ]
