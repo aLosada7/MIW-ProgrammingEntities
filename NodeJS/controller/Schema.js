@@ -99,7 +99,7 @@ class TVSerie{
 		result+='<p>Start Date: '+this.numberOfEpisodes+'</p>';
 		if(this.episode!=undefined){
 			console.log(this.episode.length);
-		if(this.episode.length==undefined){
+			if(this.episode.length==undefined){
 				console.log("aqui");
 				let episode=new Episode(this.episode["@type"],this.episode["episodeNumber"]);
 				result+=episode.getHTML();	
@@ -165,6 +165,7 @@ class Article{
 		}
 		return "";
 	}
+	
 	isValidUpdate(data){
 		console.log(data);
 		if(this.name == "" || !this.name){

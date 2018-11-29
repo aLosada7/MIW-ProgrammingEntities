@@ -146,18 +146,17 @@ class Operaciones{
 
   	public function putEntityId($data,$entity,$id){
   		$characters=$this->characters;
-      $var=true;
+      $var="";
       
-      if($newEntity["@type"]=="TVSeries"){
-        $TVSerie=new TVSerie($characters,$newEntity);
-        $var=$TVSerie.isValidUpdate();
+      if($entity=="TVSeries"){
+        $TVSerie=new TVSerie($data['updateEntity']);
+        $var=$TVSerie->isValidUpdate();
         
       }else{
-        $Article=new Article($characters,$newEntity);
-        $var=$Article.isValidUpdate();
+        $Article=new Article($data['updateEntity']);
+        $var=$Article->isValidUpdate();
       }
-      echo $var;
-      if($var == 1){
+      if($var == ""){
     		if($data['password'] == "passwordput"){
   	      for ($i = 0; $i < sizeof($characters); $i++) {
   	          if($characters[$i]["@type"] == $entity && $characters[$i]["id"] == $id){
