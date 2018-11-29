@@ -1,5 +1,4 @@
 <?php 
-  require_once './TVSerie.php';
   require_once './controller.php';
   $res=new Operaciones();
 

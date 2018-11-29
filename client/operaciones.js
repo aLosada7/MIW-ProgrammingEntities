@@ -1,3 +1,4 @@
+
 class operaciones{
 
 	getEntities(locationServer){
@@ -9,20 +10,33 @@ class operaciones{
 	}
 
 	getEntity(locationServer,server,answer,entity){
-		console.log("aqui");
-		$.get(locationServer+"/"+entity, function (response) {
-			console.log(response);
-			$("#informationGet").html("");
-	      $("#informationResponse").show();
-			if(server=="NodeJS"){
-				$("#response").html(JSON.stringify(response, undefined, 2));
-			}else{
-				let data=JSON.parse(response);
-				console.log(data);
-				$("#response").html(JSON.stringify(data, undefined, 2));
-			}
-	      $("#serverCode").val("200");
-	      
+		console.log(answer);
+		$.ajax({
+			url:locationServer+"/"+entity,
+			//contentType: answer ,
+			 type : 'GET',	
+			 headers:{
+			 	"accept":answer
+			 } ,
+		    // código a ejecutar si la petición es satisfactoria;
+		    // la respuesta es pasada como argumento a la función
+		    success : function(response,status) {
+				console.log(response);
+				console.log(status);
+				$("#informationGet").html("");
+		      $("#informationResponse").show();
+				if(server=="NodeJS" || answer=="text/html"){
+					$("#response").html(JSON.stringify(response, undefined, 2));
+				}else{
+					let data=JSON.parse(response);
+					console.log(data);
+					$("#response").html(JSON.stringify(data, undefined, 2));
+				}
+		      $("#serverCode").val("200");
+	      },
+	      	error : function(xhr, status) {
+		        alert('Disculpe, existió un problema');
+		    }
 	  
 	    });
 	    $("#contentType").val(answer);
@@ -59,8 +73,17 @@ class operaciones{
 	}
 
 	getEditData(locationServer,id,entity){
-		$.get(locationServer+"/"+entity+"/"+id, function (response) {
-	      	console.log(response);
+		$.ajax({
+			url:locationServer+"/"+entity+"/"+id,
+			//contentType: "application/json" ,
+			 type : 'GET',	
+			 headers:{
+			 	"accept":"application/json"
+			 } ,
+		    // código a ejecutar si la petición es satisfactoria;
+		    // la respuesta es pasada como argumento a la función
+		    success : function(response,status) {
+				console.log(response);
 	      	$("#selectEntityParameter").hide();
       		$("#selectIDParameter").hide();
       		$("#showOption").html('<textarea class="form-control" rows="10" name="jsonput" id="jsonput"></textarea>');
@@ -70,6 +93,11 @@ class operaciones{
 				document.getElementById('jsonput').value = JSON.stringify(data, undefined, 2);
 			}else
       		document.getElementById('jsonput').value = JSON.stringify(response, undefined, 2);
+	      },
+	      	error : function(xhr, status) {
+		        alert('Disculpe, existió un problema');
+		    }
+	  
 	    });
 	}
 
@@ -98,14 +126,22 @@ class operaciones{
 	}
 
 	getEntityID(locationServer,server,answer,id,entity){
-		console.log("aqui");
-		$.get(locationServer+"/"+entity+"/"+id, function (response) {
-			 console.log(response);
+		$.ajax({
+			url:locationServer+"/"+entity+"/"+id,
+			//contentType: answer,
+			 type : 'GET',	
+			 headers:{
+			 	"accept":answer
+			 } ,
+		    // código a ejecutar si la petición es satisfactoria;
+		    // la respuesta es pasada como argumento a la función
+		    success : function(response,status) {
+				console.log(response);
 			if(response =="Wrong id introduced"){
 				$("#response").html(response);
 			}
 			else{
-				if(server=="NodeJS"){
+				if(server=="NodeJS"  || answer=="text/html"){
 					$("#response").html(JSON.stringify(response, undefined, 2));
 				}else{
 					let data=JSON.parse(response);
@@ -116,9 +152,12 @@ class operaciones{
 	      $("#serverCode").val("200");
 	      $("#informationGet").html("");
 	      $("#informationResponse").show();
+	      },
+	      	error : function(xhr, status) {
+		        alert('Disculpe, existió un problema');
+		    }
 	  
 	    });
-	    $("#contentType").val(answer);
 	}
 
 	deleteEntityID(locationServer,entity,id,password){

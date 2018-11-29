@@ -1,4 +1,5 @@
 <?php
+require_once './validation.php';
 class Operaciones{
 
 	private $characters;
@@ -23,28 +24,81 @@ class Operaciones{
   	public function getEntity($entity){
   		$characters=$this->characters;
   		$listEntities=array();
+
+      // $_SERVER['HTTP_ACCEPT'];
+      
 	    foreach ($characters as $valor) {
 	          if($valor["@type"] == $entity){
 	            //echo json_encode($valor);
 	            array_push($listEntities, $valor);
 	          }
 	    }
-	    return json_encode($listEntities);
+
+      switch ($_SERVER['HTTP_ACCEPT']) {
+        case 'application/json':
+        //echo $_SERVER['HTTP_ACCEPT'];
+          return json_encode($listEntities);
+          break;
+        case 'text/html':
+          $result="<h1>Entity: ".$listEntities[0]["@type"]."</h1>";
+     
+          if($listEntities[0]["@type"] == "TVSeries"){
+           foreach ($listEntities as $valor) {
+              $TVSerie=new TVSerie($valor);
+              $result.=$TVSerie->getHTML();
+              
+              
+            }
+         }else if($listEntities[0]["@type"] == "Article"){
+          foreach ($listEntities as $valor) {
+              $Article=new Article($valor);
+              $result.=$Article->getHTML();
+            }
+         }
+         return $result;
+          break;
+        default:
+          return json_encode($listEntities);
+      }
   	}
 
   	public function getEntityId($entity,$id){
   		$characters=$this->characters;
-  		$res="";
+      $res="";
   		foreach ($characters as $valor) {
         //echo $valor["id"];
           if($valor["id"] == $id && $valor["@type"] == $entity){
            
-            $res=json_encode($valor);
+            $res=$valor;
             break;
           }
       }
       if($res!=""){
-      	echo $res;
+        switch ($_SERVER['HTTP_ACCEPT']) {
+          case 'application/json':
+          //echo $_SERVER['HTTP_ACCEPT'];
+            return json_encode($res);
+            break;
+          case 'text/html':
+            $result='<h1>Entity: '.$res["@type"].'</h1>';
+
+            if($res["@type"] == "TVSeries"){
+              $TVSerie=new TVSerie($res);
+              $result.=$TVSerie->getHTML();
+
+           }else if($res["@type"] == "Article"){
+    
+                $Article=new Article($res);
+              $result.=$Article->getHTML();
+              
+           }
+           return $result;
+            break;
+            
+          default:
+            return json_encode($res);
+        }
+      	
       }else
       	echo "Wrong id introduced";
       //echo isset($id);
@@ -52,26 +106,24 @@ class Operaciones{
   	}
 
   	public function postEntity($newEntity){
-  		$characters=$this->characters;
-  		array_push($characters, $newEntity);
-  		$var=true;
-  		echo $var;
+      $characters=$this->characters;
+  		$var="";
+  		
   		if($newEntity["@type"]=="TVSeries"){
-
-  			if(!is_int($newEntity["numberOfEpisodes"]) || !is_int($newEntity["numberOfSeasons"])  || $newEntity["startDate"] == ""){
-  				$var=false;
-  			}
+        $TVSerie=new TVSerie($newEntity);
+        $var=$TVSerie->isValid($characters);
   			
   		}else{
-  			if($newEntity["name"] == "" || $newEntity["articleSection"] == ""){
-  				$var=false;
-  			}
+  			$Article=new Article($newEntity);
+        $var=$Article->isValid($characters);
   		}
-  		if($var == 1){
-  			file_put_contents('data.json', json_encode($characters));
-     	 echo "Posted correctly";
+  		if($var == ""){
+          
+          array_push($characters, $newEntity);
+  			  file_put_contents('data.json', json_encode($characters));
+     	    echo "Posted correctly";
   		}else{
-  			 echo "Wrong data introduced";
+  			 echo $var;
   		}
       	//print_r($characters);
       	//file_put_contents('data.json', json_encode($characters));
@@ -94,15 +146,30 @@ class Operaciones{
 
   	public function putEntityId($data,$entity,$id){
   		$characters=$this->characters;
-  		if($data['password'] == "passwordput"){
-	      for ($i = 0; $i < sizeof($characters); $i++) {
-	          if($characters[$i]["@type"] == $entity && $characters[$i]["id"] == $id){
-	              $characters[$i]=$data['updateEntity'];
-	               file_put_contents('data.json', json_encode($characters));
-	               echo "Updated correctly";
-	               break;
-	            }
-	        }
+      $var=true;
+      
+      if($newEntity["@type"]=="TVSeries"){
+        $TVSerie=new TVSerie($characters,$newEntity);
+        $var=$TVSerie.isValidUpdate();
+        
+      }else{
+        $Article=new Article($characters,$newEntity);
+        $var=$Article.isValidUpdate();
+      }
+      echo $var;
+      if($var == 1){
+    		if($data['password'] == "passwordput"){
+  	      for ($i = 0; $i < sizeof($characters); $i++) {
+  	          if($characters[$i]["@type"] == $entity && $characters[$i]["id"] == $id){
+  	              $characters[$i]=$data['updateEntity'];
+  	               file_put_contents('data.json', json_encode($characters));
+  	               echo "Updated correctly";
+  	               break;
+  	            }
+  	        }
+        }else{
+           echo "Wrong data introduced";
+        }
 	    }
   	}
 

@@ -3,22 +3,40 @@
   var entityGlobal=0;
 $(document).ready(function(){
 
+$('select').on('change', function() {
+  //alert( this.value );
+  if(this.value=="TVSeries"){
+    var obj={
+      "@context": "http://schema.org",
+      "@type": "TVSeries",
+      "id":"0",
+      "numberOfEpisodes":"integer",
+      "numberOfSeasons": "integer",
+      "startDate":"date",
+      "episode": {
+          "@type": "Episode",
+          "episodeNumber": "integer"
+        }
+      }
+      
+  }else if(this.value == "Article"){
+    var obj={
+      "@context": "http://schema.org",
+      "@type": "Article",
+      "id": "0",
+      "name": "string",
+      "articleSection": "string"
+    }
+    }
+     var pretty = JSON.stringify(obj, undefined, 2);
+     var ugly = document.getElementById('jsonpost').value;
+      document.getElementById('jsonpost').value = pretty;
+});
 
-var obj={
-  "@context": "http://schema.org",
-  "@type": "TVSeries",
-  "id":"0",
-  "numberOfEpisodes":"integer",
-  "numberOfSeasons": "integer",
-  "startDate":"date"
-   }
 
 
-var pretty = JSON.stringify(obj, undefined, 2);
-
-var ugly = document.getElementById('jsonpost').value;
-document.getElementById('jsonpost').value = pretty;
     $("#panelExecution").hide();
+    $("#showHTML").hide();
     $('#getEntitys').on('click', function () {
       $("#panelExecution").show();
       $("#noParameters").show();
@@ -30,6 +48,7 @@ document.getElementById('jsonpost').value = pretty;
       $("#typeAnswer").hide();
       $("#typeAnswerJson").hide();
       $("#typeAnswerHtml").show();
+      $("#jsonput").hide();
 
       action=1;
     })
@@ -43,6 +62,7 @@ document.getElementById('jsonpost').value = pretty;
             $("#typeAnswer").show();
       $("#typeAnswerJson").hide();
       $("#typeAnswerHtml").hide();
+      $("#jsonput").hide();
       action=2;
     })
     $('#postEntity').on('click', function () {
@@ -55,6 +75,22 @@ document.getElementById('jsonpost').value = pretty;
             $("#typeAnswer").hide();
       $("#typeAnswerJson").show();
       $("#typeAnswerHtml").hide();
+      $("#jsonput").hide();
+      var obj={
+      "@context": "http://schema.org",
+      "@type": "TVSeries",
+      "id":"0",
+      "numberOfEpisodes":"integer",
+      "numberOfSeasons": "integer",
+      "startDate":"date",
+      "episode": {
+          "@type": "Episode",
+          "episodeNumber": "integer"
+        }
+      };
+      var pretty = JSON.stringify(obj, undefined, 2);
+     var ugly = document.getElementById('jsonpost').value;
+      document.getElementById('jsonpost').value = pretty;
       action=3;
     })
     $('#putEntityID').on('click', function () {
@@ -67,6 +103,7 @@ document.getElementById('jsonpost').value = pretty;
             $("#typeAnswer").hide();
       $("#typeAnswerJson").show();
       $("#typeAnswerHtml").hide();
+      $("#jsonput").hide();
       action=4;
     })
     $('#getEntityID').on('click', function () {
@@ -79,6 +116,7 @@ document.getElementById('jsonpost').value = pretty;
             $("#typeAnswer").show();
       $("#typeAnswerJson").hide();
       $("#typeAnswerHtml").hide();
+      $("#jsonput").hide();
       action=5;
     })
     $('#deleteEntityID').on('click', function () {
@@ -91,6 +129,7 @@ document.getElementById('jsonpost').value = pretty;
             $("#typeAnswer").hide();
       $("#typeAnswerJson").show();
       $("#typeAnswerHtml").hide();
+      $("#jsonput").hide();
       action=6;
     })
 })
@@ -99,7 +138,7 @@ function processForm(){
   var operacion=new operaciones();
   var server=document.getElementById("server").value;
   var locationServer="";
-  var answer=requestForm.typeAnswer.value;
+  var answer=document.getElementById("typeAnswer").value;
   console.log(server + " " + answer + " " + action);
   switch(server){
     case "NodeJS":
@@ -128,7 +167,10 @@ function processForm(){
     case 3:
     console.log($('#jsonpost').val());
     var entity=$('#entitySelected').val();
+    if(server=="PHP")
       var post=JSON.parse($('#jsonpost').val());
+    else
+      var post=$('#jsonpost').val();
       console.log(post);
       operacion.postEntity(locationServer,entity,post);
       break;
@@ -161,4 +203,14 @@ function processForm(){
       operacion.putEntityID(locationServer,entityGlobal,idGlobal,put,passwordPut);
       break;
   }
+  if(answer=="text/html"){
+    $("#showHTML").show();
+  }else{
+    $("#showHTML").hide();
+  }
+}
+
+function showHTML(){
+  console.log($("#response").val());
+ document.getElementById("HTMLInfo").innerHTML = $("#response").val();
 }
