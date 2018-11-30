@@ -1,3 +1,4 @@
+//Clases TVSerie, Episode, Article
 class TVSerie{
 	constructor(entity){
 		this.entity=entity["@type"];
@@ -165,7 +166,7 @@ class Article{
 		}
 		return "";
 	}
-	
+
 	isValidUpdate(data){
 		console.log(data);
 		if(this.name == "" || !this.name){

@@ -1,5 +1,5 @@
 <?php
-
+//Clases TVSerie, Episode, Article
 class TVSerie{
 
 	function __construct($entity){
