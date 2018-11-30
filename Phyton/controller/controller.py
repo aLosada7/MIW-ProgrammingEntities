@@ -2,6 +2,8 @@ from flask import render_template,json,Blueprint
 from flask import request
 from ..model import series
 from ..model import articles
+from ..model import TVSerie
+from .. model import Article
 
 routes = Blueprint('routes', __name__)
 
@@ -19,16 +21,35 @@ def hello_world():
 
 @routes.route('/<entity>',methods=['GET', 'POST'])
 def work_entity(entity):
+    print(request.method)
     if request.method == 'POST':
-        jsonpost = request.form['updateEntity']
+        print(request.method)
+        jsonpost = json.loads(request.form['newEntity'])
         print(jsonpost)
         if entity == 'TVSeries':
             show=TVSerie(jsonpost['@type'], jsonpost['id'], jsonpost['numberOfEpisodes'], jsonpost['numberOfSeasons'], jsonpost['startDate'])
+            #isValid=show.is_valid()
+            series.add_tv_show(show)
+            save = []
+            for show in series.series:
+                save.append(show.convert_json())
+            for articulo in articles.articles:
+                save.append(articulo.convert_json())
+            with open('./model/data.json', 'w') as f:
+                json.dump(save, f)
+            return 'Posted correctly'
         elif entity=='Article':
-            article=Article(i['@type'], i['id'], i['name'], i['articleSection'])
-        password = request.form['password']
-        print(password)
-        return 'POST'
+            article=Article(jsonpost['@type'], jsonpost['id'], jsonpost['name'], jsonpost['articleSection'])
+            #isValid = show.is_valid()
+            articles.add_article(article)
+            save = []
+            for show in series.series:
+                save.append(show.convert_json())
+            for articulo in articles.articles:
+                save.append(articulo.convert_json())
+            with open('./model/data.json', 'w') as f:
+                json.dump(save, f)
+            return 'Posted correctly'
     elif request.method == 'GET':
         tipo = (request.headers['accept'])
         print(tipo)
@@ -53,11 +74,12 @@ def work_entity(entity):
                     'articleSection': article.article_section
                 })
 
-@routes.route('/<entity>/<id>', methods=['GET', 'UPDATE', 'DELETE'])
+@routes.route('/<entity>/<id>', methods=['GET', 'PUT', 'DELETE'])
 def work_entity_id(entity,id):
+    print(request.method)
     if request.method == 'GET':
         tipo = (request.headers['accept'])
-        print(tipo)
+        print(request.method)
         if entity == 'TVSeries':
             for show in series.series:
                 if show.id == id:
@@ -79,12 +101,41 @@ def work_entity_id(entity,id):
                         'name':article.name,
                         'articleSection': article.article_section
                     })
-    elif request.method == 'UPDATE':
-        jsonpost = request.form['newEntity']
-        print(jsonpost)
+    elif request.method == 'PUT':
+        jsonput = json.loads(request.form['updateEntity'])
+        print(jsonput['@type'])
         password = request.form['password']
-        print(password)
-        return 'UPDATE'
+        if password=="passwordput":
+            if entity == 'TVSeries':
+                update = TVSerie(jsonput['@type'], jsonput['id'], jsonput['numberOfEpisodes'],jsonput['numberOfSeasons'], jsonput['startDate'])
+                for show in series.series:
+                    if show.id == id:
+                        show.update_entity(update)
+                        break
+                save = []
+                for show in series.series:
+                    save.append(show.convert_json())
+                for articulo in articles.articles:
+                    save.append(articulo.convert_json())
+                with open('./model/data.json', 'w') as f:
+                    json.dump(save, f)
+                return 'Updated correctly'
+            elif entity == 'Article':
+                update = Article(jsonput['@type'], jsonput['id'], jsonput['name'], jsonput['articleSection'])
+                for article in articles.articles:
+                    if article.id == id:
+                        article.update_entity(update)
+                        break
+                save = []
+                for show in series.series:
+                    save.append(show.convert_json())
+                for articulo in articles.articles:
+                    save.append(articulo.convert_json())
+                with open('./model/data.json', 'w') as f:
+                    json.dump(save, f)
+                return 'Updated correctly'
+        else:
+            return "Wrong password"
     elif request.method == 'DELETE':
         password=request.form['password']
         if password=="passworddelete":
@@ -96,6 +147,8 @@ def work_entity_id(entity,id):
                 for article in articles.articles:
                     if article.id == id:
                         print('drop this')
+            else:
+                return "Wrong id"
         else:
             return "Wrong password"
         print(password)
