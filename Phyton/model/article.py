@@ -1,5 +1,6 @@
 class Article:
-    def __init__(self, entity, id, name, article_section):
+    def __init__(self, context,entity, id, name, article_section):
+        self.context=context
         self.entity = entity
         self.id=id
         self.name=name
@@ -25,6 +26,7 @@ class Article:
 
     def convert_json(self):
         return ({
+                    '@context': self.context,
                     '@type': self.entity,
                     'id': self.id,
                     'name':self.name,

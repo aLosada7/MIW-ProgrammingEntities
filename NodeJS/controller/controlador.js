@@ -5,8 +5,8 @@ const Article=require('./Schema.js').Article;
 
 class Information{
 
-	constructor($data){
-		this.json=JSON.parse($data);
+	constructor(data){
+		this.json=JSON.parse(data);
 	}
 
 

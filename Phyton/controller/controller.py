@@ -28,7 +28,11 @@ def work_entity(entity):
         print(jsonpost)
         res=""
         if entity == 'TVSeries':
-            show=TVSerie(jsonpost['@type'], jsonpost['id'], jsonpost['numberOfEpisodes'], jsonpost['numberOfSeasons'], jsonpost['startDate'])
+            try:
+                jsonpost['episode']
+            except KeyError:
+                jsonpost['episode'] = None
+            show=TVSerie(jsonpost['@context'],jsonpost['@type'], jsonpost['id'], jsonpost['numberOfEpisodes'], jsonpost['numberOfSeasons'], jsonpost['startDate'],jsonpost['episode'])
             res = show.valid_id(series.series)
             if res == "":
                 res = show.is_valid()
@@ -49,7 +53,7 @@ def work_entity(entity):
             else:
                 return res
         elif entity=='Article':
-            article=Article(jsonpost['@type'], jsonpost['id'], jsonpost['name'], jsonpost['articleSection'])
+            article=Article(jsonput['@context'],jsonpost['@type'], jsonpost['id'], jsonpost['name'], jsonpost['articleSection'])
             res = article.valid_id(series.series)
             if res == "":
                 res = article.is_valid()
@@ -75,13 +79,10 @@ def work_entity(entity):
             if tipo == "application/json":
                 shows=[]
                 for show in series.series:
-                    shows.append({
-                        '@type': show.entity,
-                        'id': show.id,
-                        'numberOfEpisodes': show.number_of_episodes,
-                        'numberOfSeasons': show.number_of_seasons,
-                        'startDate':show.start_date
-                    })
+                    print(show.episode)
+                    for ep in show.episode:
+                        print(ep.entity)
+                    shows.append(show.convert_json())
                 return json.dumps(shows)
             else:
                 html="<h1>Entity: "+series.series[0].entity+"</h1>"
@@ -92,12 +93,7 @@ def work_entity(entity):
         elif entity=='Article':
             if tipo=="application/json":
                 for article in articles.articles:
-                    return json.dumps({
-                        '@type': article.entity,
-                        'id': article.id,
-                        'name':article.name,
-                        'articleSection': article.article_section
-                    })
+                    return json.dumps(article.convert_json())
             else:
                 html="<h1>Entity: "+articles.articles[0].entity+"</h1>"
                 for art in articles.articles:
@@ -115,13 +111,7 @@ def work_entity_id(entity,id):
                 if show.id == id:
                     print(show.id)
                     if tipo=="application/json":
-                        return json.dumps({
-                            '@type': show.entity,
-                            'id': show.id,
-                            'numberOfEpisodes': show.number_of_episodes,
-                            'numberOfSeasons': show.number_of_seasons,
-                            'startDate':show.start_date
-                        })
+                        return json.dumps(show.convert_json())
                     else:
                         html = "<h1>Entity: " + show.entity + "</h1>"
                         html = html + show.convert_html()
@@ -132,12 +122,7 @@ def work_entity_id(entity,id):
                 if article.id == id:
                     print(article.id)
                     if tipo=="application/json":
-                        return json.dumps({
-                            '@type': article.entity,
-                            'id': article.id,
-                            'name':article.name,
-                            'articleSection': article.article_section
-                        })
+                        return json.dumps(article.convert_json())
                     else:
                         html = "<h1>Entity: " + article.entity + "</h1>"
                         html = html + article.convert_html()
@@ -149,7 +134,11 @@ def work_entity_id(entity,id):
         if password=="passwordput":
             res=""
             if entity == 'TVSeries':
-                update = TVSerie(jsonput['@type'], jsonput['id'], jsonput['numberOfEpisodes'],jsonput['numberOfSeasons'], jsonput['startDate'])
+                try:
+                    jsonput['episode']
+                except KeyError:
+                    jsonput['episode'] = None
+                update = TVSerie(jsonput['@context'],jsonput['@type'], jsonput['id'], jsonput['numberOfEpisodes'],jsonput['numberOfSeasons'], jsonput['startDate'],jsonput['episode'])
                 res = update.is_valid()
                 if res=="":
                     for show in series.series:
@@ -167,7 +156,7 @@ def work_entity_id(entity,id):
                 else:
                     return res
             elif entity == 'Article':
-                update = Article(jsonput['@type'], jsonput['id'], jsonput['name'], jsonput['articleSection'])
+                update = Article(jsonput['@context'],jsonput['@type'], jsonput['id'], jsonput['name'], jsonput['articleSection'])
                 res = update.is_valid()
                 if res == "":
                     for article in articles.articles:
@@ -206,6 +195,7 @@ def work_entity_id(entity,id):
                         return "Delete correctly";
                     else:
                         indice=indice+1
+                return "Id does not exist"
             elif entity == 'Article':
                 indice=0
                 for article in articles.articles:
@@ -222,8 +212,6 @@ def work_entity_id(entity,id):
                         return "Delete correctly";
                     else:
                         indice=indice+1
-            return "Wrong id"
+                return "Wrong id"
         else:
             return "Wrong password"
-        print(password)
-        return 'DELETE'
