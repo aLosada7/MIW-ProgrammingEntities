@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="560dcf5b-a70b-49b0-afd0-b4c9ce3b3850" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/controller/controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/article.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/article.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/model/data.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/tvserie.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/tvserie.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../php/validation.php" beforeDir="false" afterPath="$PROJECT_DIR$/../php/validation.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,8 +40,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controller/controller.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="144" column="24" lean-forward="true" selection-start-line="144" selection-start-column="24" selection-end-line="144" selection-end-column="42" />
+            <state relative-caret-position="680">
+              <caret line="142" column="45" selection-start-line="142" selection-start-column="45" selection-end-line="142" selection-end-column="45" />
               <folding>
                 <element signature="e#0#48#0" expanded="true" />
               </folding>
@@ -61,8 +61,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/article.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="42" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
+            <state relative-caret-position="493">
+              <caret line="29" column="106" selection-start-line="29" selection-start-column="106" selection-end-line="29" selection-end-column="106" />
             </state>
           </provider>
         </entry>
@@ -83,7 +83,7 @@
         <entry file="file://$PROJECT_DIR$/model/data.json">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="1048" selection-start-column="1048" selection-end-column="1048" />
+              <caret column="249" lean-forward="true" selection-end-column="306" />
             </state>
           </provider>
         </entry>
@@ -91,8 +91,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/tvserie.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+            <state relative-caret-position="680">
+              <caret line="40" column="86" selection-start-line="39" selection-start-column="4" selection-end-line="40" selection-end-column="86" />
             </state>
           </provider>
         </entry>
@@ -123,9 +123,9 @@
         <option value="$PROJECT_DIR$/__init__.py" />
         <option value="$PROJECT_DIR$/model/Schema.py" />
         <option value="$PROJECT_DIR$/model/__init__.py" />
-        <option value="$PROJECT_DIR$/model/article.py" />
-        <option value="$PROJECT_DIR$/model/tvserie.py" />
         <option value="$PROJECT_DIR$/model/data.json" />
+        <option value="$PROJECT_DIR$/model/tvserie.py" />
+        <option value="$PROJECT_DIR$/model/article.py" />
         <option value="$PROJECT_DIR$/controller/controller.py" />
       </list>
     </option>
@@ -200,12 +200,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1543514746883</updated>
-      <workItem from="1543514754382" duration="25534000" />
+      <workItem from="1543514754382" duration="29159000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25534000" />
+    <option name="totallyTimeSpent" value="29159000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="227" y="17" width="1401" height="1000" extended-state="0" />
@@ -288,10 +288,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/article.py">
+    <entry file="file://$PROJECT_DIR$/model/Schema.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="42" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
+        <state relative-caret-position="17">
+          <caret line="1" column="28" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/data.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="249" lean-forward="true" selection-end-column="306" />
         </state>
       </provider>
     </entry>
@@ -305,31 +312,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/Schema.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="28" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/model/tvserie.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="680">
+          <caret line="40" column="86" selection-start-line="39" selection-start-column="4" selection-end-line="40" selection-end-column="86" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/data.json">
+    <entry file="file://$PROJECT_DIR$/model/article.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="1048" selection-start-column="1048" selection-end-column="1048" />
+        <state relative-caret-position="493">
+          <caret line="29" column="106" selection-start-line="29" selection-start-column="106" selection-end-line="29" selection-end-column="106" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controller/controller.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="144" column="24" lean-forward="true" selection-start-line="144" selection-start-column="24" selection-end-line="144" selection-end-column="42" />
+        <state relative-caret-position="680">
+          <caret line="142" column="45" selection-start-line="142" selection-start-column="45" selection-end-line="142" selection-end-column="45" />
           <folding>
             <element signature="e#0#48#0" expanded="true" />
           </folding>

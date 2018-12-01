@@ -25,7 +25,7 @@ class TVSerie{
   		if($this->numberOfSeasons == 0){
   				return "Wrong numberOfSeasons introduced";
   		}
-  		if($this->startDate == "" || $this->startDate == ""){
+  		if($this->startDate == "" || $this->startDate == "date"){
   				return "Wrong startDate introduced";
   		}
   		if(isset($this->episode)){
