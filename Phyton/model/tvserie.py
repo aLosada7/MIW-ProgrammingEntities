@@ -29,7 +29,7 @@ class TVSerie:
     def is_valid(self):
         if self.context !=  "http://schema.org":
             return "Wrong context introduced"
-        if self.entity != "TVSerie":
+        if self.entity != "TVSeries":
             return "Wrong type introduced"
         if self.number_of_episodes == 0:
             return "Wrong numberOfEpisodes introduced"

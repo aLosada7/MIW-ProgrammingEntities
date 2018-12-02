@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="560dcf5b-a70b-49b0-afd0-b4c9ce3b3850" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../NodeJS/controller/Schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/../NodeJS/controller/Schema.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../NodeJS/controller/controlador.js" beforeDir="false" afterPath="$PROJECT_DIR$/../NodeJS/controller/controlador.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../NodeJS/model/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/../NodeJS/model/data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NodeJS/test/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/../NodeJS/test/test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/tvserie.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/tvserie.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/index.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -89,8 +90,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/model/tvserie.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="48" column="84" lean-forward="true" selection-start-line="42" selection-start-column="8" selection-end-line="48" selection-end-column="84" />
+            <state relative-caret-position="221">
+              <caret line="31" column="35" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -127,9 +128,9 @@
         <option value="$PROJECT_DIR$/model/episode.py" />
         <option value="$PROJECT_DIR$/model/data.json" />
         <option value="$PROJECT_DIR$/model/__init__.py" />
-        <option value="$PROJECT_DIR$/model/tvserie.py" />
         <option value="$PROJECT_DIR$/model/article.py" />
         <option value="$PROJECT_DIR$/controller/controller.py" />
+        <option value="$PROJECT_DIR$/model/tvserie.py" />
       </list>
     </option>
   </component>
@@ -203,12 +204,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1543514746883</updated>
-      <workItem from="1543514754382" duration="50426000" />
+      <workItem from="1543514754382" duration="51109000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="50426000" />
+    <option name="totallyTimeSpent" value="51109000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1629" y="26" width="1401" height="1021" extended-state="0" />
@@ -341,8 +342,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model/tvserie.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="48" column="84" lean-forward="true" selection-start-line="42" selection-start-column="8" selection-end-line="48" selection-end-column="84" />
+        <state relative-caret-position="221">
+          <caret line="31" column="35" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
         </state>
       </provider>
     </entry>

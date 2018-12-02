@@ -16,4 +16,12 @@ describe('Suite one', function(){
     done();
    });
   });
+ it ('prueba3 wrong id',function(done){
+   request.get('http://156.35.95.85:8081/TVSeries/100').end(function(err,res,text){
+    console.log(res.text);
+    expect(res.text).to.exist;
+    expect(res.text).to.equal("Wrong id introduced"); 
+    done();
+   });
+  });
 });

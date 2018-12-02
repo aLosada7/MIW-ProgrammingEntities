@@ -220,7 +220,9 @@ class Information{
 			  }
 		}
 		if(result==""){
-			return "Wrong id introduced";
+			console.log("aqui");
+			res.send("Wrong id introduced");
+			return;
 		}
 		 
 		  	console.log(result);

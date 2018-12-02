@@ -92,7 +92,7 @@ class operaciones{
 	      	$("#selectEntityParameter").hide();
       		$("#selectIDParameter").hide();
       		$("#showOption").html('<textarea class="form-control" rows="10" name="jsonput" id="jsonput"></textarea>');
-      		if(locationServer=="http://156.35.95.85:8082"){
+      		if(locationServer!="http://156.35.95.85:8081"){
 				let data=JSON.parse(response);
 				console.log(data);
 				document.getElementById('jsonput').value = JSON.stringify(data, undefined, 2);
