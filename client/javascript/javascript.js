@@ -149,7 +149,7 @@ function processForm(){
       locationServer="http://156.35.95.85:8082";
       console.log(locationServer);
       break;
-    case "Phyton":
+    case "Python":
       locationServer="http://156.35.95.85:8083";
       console.log(locationServer);
       break;

@@ -25,21 +25,26 @@ class operaciones{
 				console.log(status);
 				$("#informationGet").html("");
 		      $("#informationResponse").show();
-				if(server=="NodeJS" || answer=="text/html"){
+		      	if(answer=="text/html"){
+					$("#response").html(response);
+				}
+				else if(server=="NodeJS"){
+					console.log(JSON.stringify(response, undefined, 2));
 					$("#response").html(JSON.stringify(response, undefined, 2));
+					console.log($("#response"));
 				}else{
 					let data=JSON.parse(response);
 					console.log(data);
 					$("#response").html(JSON.stringify(data, undefined, 2));
 				}
-		      $("#serverCode").val("200");
+				$("#contentType").val(answer);
+		      	$("#serverCode").val(status);
 	      },
 	      	error : function(xhr, status) {
 		        alert('Disculpe, existió un problema');
 		    }
 	  
 	    });
-	    $("#contentType").val(answer);
 	}
 
 	postEntity(locationServer,entity,post){
@@ -141,15 +146,21 @@ class operaciones{
 				$("#response").html(response);
 			}
 			else{
-				if(server=="NodeJS"  || answer=="text/html"){
+				if(answer=="text/html"){
+					$("#response").html(response);
+				}
+				else if(server=="NodeJS"){
+					console.log(JSON.stringify(response, undefined, 2));
 					$("#response").html(JSON.stringify(response, undefined, 2));
+					console.log($("#response"));
 				}else{
 					let data=JSON.parse(response);
 					console.log(data);
 					$("#response").html(JSON.stringify(data, undefined, 2));
 				}
 			}
-	      $("#serverCode").val("200");
+	      	$("#contentType").val(answer);
+		    $("#serverCode").val(status);
 	      $("#informationGet").html("");
 	      $("#informationResponse").show();
 	      },

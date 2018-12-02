@@ -7,6 +7,15 @@ class Information{
 
 	constructor(data){
 		this.json=JSON.parse(data);
+		let series =[];
+		let articles=[];
+		for(let i=0; i < this.json.length;i++){
+			if(this.json[i]["@type"]=="TVSeries"){
+				series.push(new TVSerie(this.json[i]));
+			}else if(this.json[i]["@type"]=="Article"){
+				articles.push(new Article(this.json[i]));
+			}
+		}
 	}
 
 
@@ -64,9 +73,6 @@ class Information{
 		  		console.log(result);
 		  		res.status(200).send(result);
 		  		break;
-		  	default:
-		  		res.header("Access-Control-Allow-Origin", "*");
-		  		res.status(200).send(listEntities);
 		  	
 		  	}
 
@@ -159,9 +165,7 @@ class Information{
 			  		res.status(200).send(this.json[i]);
 			  		break;
 			  	case "text/html":
-					 
 			  		let result='<h1>Entity: '+ this.json[0]["@type"];
-
 			  		if(this.json[i]["@type"] == "TVSeries"){
 				  			let TVSerieIn=new TVSerie(this.json[i]);
 			  				result+=TVSerieIn.getHTML();
@@ -174,14 +178,10 @@ class Information{
 			  		console.log(result);
 			  		res.status(200).send(result);
 			  		break;
-			  	default:
-			  		res.header("Access-Control-Allow-Origin", "*");
-			  		res.status(200).send(this.json[i]);
 			  }
-		  		break;
 		  	}
 		  }
-		  res.send("ID not found");
+		  
 	}
 
 	deleteEntityId(req,res){

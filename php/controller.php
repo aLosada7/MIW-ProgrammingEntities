@@ -8,6 +8,17 @@ class Operaciones{
 		$url = 'data.json'; // path to your JSON file
 		$data = file_get_contents($url); // put the contents of the file into a variable
 		$this->characters = json_decode($data,true); // decode the JSON feed
+    $series=array();
+    $articles=array();
+    foreach ($this->characters as $valor) {
+            if($valor["@type"] == "TVSeries"){
+              //echo json_encode($valor);
+              array_push($series, new TVSerie($valor));
+            }else if($valor["@type"] == "Articles"){
+              //echo json_encode($valor);
+              array_push($articles, new Article($valor));
+            }
+      }
 	}
 
   	public function getAPI(){
