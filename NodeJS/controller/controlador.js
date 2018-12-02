@@ -7,14 +7,18 @@ class Information{
 
 	constructor(data){
 		this.json=JSON.parse(data);
-		let series =[];
-		let articles=[];
+		this.series =[];
+		this.articles=[];
 		for(let i=0; i < this.json.length;i++){
 			if(this.json[i]["@type"]=="TVSeries"){
-				series.push(new TVSerie(this.json[i]));
+				this.series.push(new TVSerie(this.json[i]));
 			}else if(this.json[i]["@type"]=="Article"){
-				articles.push(new Article(this.json[i]));
+				this.articles.push(new Article(this.json[i]));
 			}
+		}
+
+		for(let i=0; i < this.series.length;i++){
+			console.log(this.series[i]);
 		}
 	}
 
@@ -37,39 +41,46 @@ class Information{
 	}
 
 	getEntity(req,res){
-		console.log(this.json);
 		var listEntities=[];
 		  console.log('Entity:', req.params.entity);
-		  console.log(this.json.length);
-		  for (let i = 0; i < this.json.length; i++) {
-		  	if(this.json[i]["@type"]==req.params.entity){
-		  		console.log(this.json[i]);
-		  		listEntities.push(this.json[i]);
-		  	}
-		  }
+		if(req.params.entity=="TVSeries"){
+			for (let i = 0; i < this.series.length; i++) {
+			  	if(this.series[i].entity==req.params.entity){
+			  		console.log(this.series[i]);
+			  		listEntities.push(this.series[i]);
+			  	}
+			  }
+		}else if(req.params.entity=="Article"){
+			for (let i = 0; i < this.articles.length; i++) {
+			  	if(this.articles[i].entity==req.params.entity){
+			  		console.log(this.articles[i]);
+			  		listEntities.push(this.articles[i]);
+			  	}
+			  }
+		}
 		  console.log("aqui");
 		  console.log(req.headers["accept"]);
 		  
 		  switch(req.headers["accept"]){
 		  	case "application/json":
 		  		res.header("Access-Control-Allow-Origin", "*");
-		  		res.status(200).send(listEntities);
+		  		let resultJSON=[];
+		  		for (let i = 0; i < listEntities.length; i++) {
+			  			//let TVSerieIn=new TVSerie(listEntities[i]);
+			  			resultJSON.push(listEntities[i].getJSON());
+					  }
+		  		res.status(200).send(resultJSON);
 		  		break;
 		  	case "text/html":
 				 
-		  		let result='<h1>Entity: '+ listEntities[0]["@type"]+'</h1>';
+		  		let result='<h1>Entity: '+ listEntities[0].entity+'</h1>';
 
-		  		if(listEntities[0]["@type"] == "TVSeries"){
+		  		
 			  		for (let i = 0; i < listEntities.length; i++) {
-			  			let TVSerieIn=new TVSerie(listEntities[i]);
-			  			result+=TVSerieIn.getHTML();
+			  			//let TVSerieIn=new TVSerie(listEntities[i]);
+			  			result+=listEntities[i].getHTML();
 					  }
-				 }else if(listEntities[0]["@type"] == "Article"){
-				 	for (let i = 0; i < listEntities.length; i++) {
-				 		let ArticleIn=new Article(listEntities[i]);
-			  			result+=ArticleIn.getHTML();
-			  		}
-				 }
+				 
 		  		console.log(result);
 		  		res.status(200).send(result);
 		  		break;
@@ -91,23 +102,40 @@ class Information{
 		  }
 		console.log(req.body.newEntity["@type"]);
 		let valid="";
+		let TVSerieValid=""; let ArticleValid="";
 		if(req.body.newEntity["@type"] == "TVSeries"){
-			let TVSerieValid=new TVSerie(req.body.newEntity);
-			valid=TVSerieValid.isValid(this.json);
+			TVSerieValid=new TVSerie(req.body.newEntity);
+			valid=TVSerieValid.isvalidId(this.series);
+			if(valid==""){
+				valid=TVSerieValid.isValid();
+			}
 		}else if(req.body.newEntity["@type"] == "Article"){
-			let ArticleValid=new Article(req.body.newEntity);
-			valid=ArticleValid.isValid(this.json);
+			ArticleValid=new Article(req.body.newEntity);
+			valid=ArticleValid.isvalidId(this.articles);
+			if(valid==""){
+				valid=ArticleValid.isValid();
+			}
 		}else{
 			res.status(200).send("Wrong data introduced");
 		}
 		console.log(valid);
 		if(valid==""){
 
-
-			this.json.push(req.body.newEntity);
+			if(req.body.newEntity["@type"] == "TVSeries"){
+				this.series.push(TVSerieValid);
+			}else if(req.body.newEntity["@type"] == "Article"){
+				this.articles.push(ArticleValid);
+			}
+			let guardar=[];
+			for (let i = 0; i < this.series.length; i++) {
+				guardar.push(this.series[i].getJSON());
+			}
+			for (let i = 0; i < this.articles.length; i++) {
+				guardar.push(this.articles[i].getJSON());
+			}
 			
-			console.log(this.json);
-			fs.writeFile('data.json', JSON.stringify(this.json, undefined, 2), (err) => {
+			console.log(guardar);
+			fs.writeFile('./model/data.json', JSON.stringify(guardar, undefined, 2), (err) => {
 			  if (err) throw err;
 			  console.log('The file has been saved!');
 			});
@@ -119,12 +147,13 @@ class Information{
 
 	putEntityId(req,res){
 		let valid="";
-		if(req.body.updateEntity["@type"] == "TVSeries"){
-			let TVSerieValid=new TVSerie(req.body.updateEntity);
-			valid=TVSerieValid.isValidUpdate();
-		}else if(req.body.updateEntity["@type"] == "Article"){
-			let ArticleValid=new Article(this.json,req.body.updateEntity);
-			valid=ArticleValid.isValidUpdate();
+		let TVSerieValid=""; let ArticleValid="";
+		if(req.params.entity == "TVSeries"){
+			TVSerieValid=new TVSerie(req.body.updateEntity);
+			valid=TVSerieValid.isValid();
+		}else if(req.params.entity == "Article"){
+			ArticleValid=new Article(req.body.updateEntity);
+			valid=ArticleValid.isValid();
 		}else{
 			res.status(200).send("Wrong data introduced");
 		}
@@ -132,18 +161,37 @@ class Information{
 		if(valid==""){
 			if(req.body.password=="passwordput"){
 				console.log('ID:', req.params.id);
-				for (let i = 0; i < this.json.length; i++) {
-				  	if(this.json[i].id==req.params.id && this.json[i]["@type"]==req.params.entity){
-				  		this.json[i]=req.body.updateEntity;
-				  		console.log(this.json[i]);
-				  		fs.writeFile('data.json', JSON.stringify(this.json, undefined, 2), (err) => {
-						  if (err) throw err;
-						  console.log('The file has been saved!');
-						  res.status(200).send("Updated correctly");
-						});
-				  		break;
-				  	}
-				  }
+				if(req.params.entity == "TVSeries"){
+					for (let i = 0; i < this.series.length; i++) {
+					  	if(this.series[i].id==req.params.id){
+					  		this.series[i].updateEntity(TVSerieValid);
+					  		break;
+					  	}
+					 }
+				}else if(req.params.entity == "Article"){
+					for (let i = 0; i < this.articles.length; i++) {
+					  	if(this.articles[i].id==req.params.id){
+					  		this.articles[i].updateEntity(ArticleValid);
+					  		break;
+					  	}
+					 }
+				}
+
+				let guardar=[];
+				for (let i = 0; i < this.series.length; i++) {
+					guardar.push(this.series[i].getJSON());
+				}
+				for (let i = 0; i < this.articles.length; i++) {
+					guardar.push(this.articles[i].getJSON());
+				}
+			
+				console.log(guardar);
+				fs.writeFile('./model/data.json', JSON.stringify(guardar, undefined, 2), (err) => {
+				  if (err) throw err;
+				  console.log('The file has been saved!');
+				});
+				res.send("Updated succesfully");
+				  
 		  	}else{
 				res.send("Incorrect password");
 			}
@@ -151,36 +199,48 @@ class Information{
 	}
 
 	getEntityId(req,res){
-		let result;
+		let result="";
 		  console.log('ID:',req.params.id);
 		  console.log('Entity:',req.params.entity);
-		  for (let i = 0; i < this.json.length; i++) {
-		  	if(this.json[i].id==req.params.id && this.json[i]["@type"]==req.params.entity){
-		  		console.log(this.json[i]);
-		  		result=this.json[i];
-		  		console.log(req.headers["accept"]);
-			  switch(req.headers["accept"]){
-			  	case "application/json":
-			  		res.header("Access-Control-Allow-Origin", "*");
-			  		res.status(200).send(this.json[i]);
+		  let obj;
+		  if(req.params.entity=="TVSeries"){
+			for (let i = 0; i < this.series.length; i++) {
+			  	if(this.series[i].id==req.params.id){
+			  		console.log(this.series[i]);
+			  		result=this.series[i];
 			  		break;
-			  	case "text/html":
-			  		let result='<h1>Entity: '+ this.json[0]["@type"];
-			  		if(this.json[i]["@type"] == "TVSeries"){
-				  			let TVSerieIn=new TVSerie(this.json[i]);
-			  				result+=TVSerieIn.getHTML();
-					}else if(this.json[i]["@type"] == "Article"){
-
-				  			let ArticleIn=new Article(this.json[i]);
-			  				result+=ArticleIn.getHTML();
-						  
-					 }
-			  		console.log(result);
-			  		res.status(200).send(result);
-			  		break;
+			  	}
 			  }
-		  	}
+		}else if(req.params.entity=="Article"){
+			for (let i = 0; i < this.articles.length; i++) {
+			  	if(this.articles[i].id==req.params.id){
+			  		result=this.articles[i];
+			  		break;
+			  	}
+			  }
+		}
+		if(result==""){
+			return "Wrong id introduced";
+		}
+		 
+		  	console.log(result);
+		  	console.log(req.headers["accept"]);
+		  switch(req.headers["accept"]){
+		  	case "application/json":
+		  		console.log("aaaaaa"+result);
+		  		res.header("Access-Control-Allow-Origin", "*");
+		  		res.status(200).send(result.getJSON());
+		  		break;
+		  	case "text/html":
+		  		let html="";
+		  		html='<h1>Entity: '+ result["@type"];
+		  		html+=result.getHTML();
+		  		console.log(result);
+		  		res.status(200).send(html);
+		  		break;
 		  }
+		
+		  	
 		  
 	}
 
@@ -188,19 +248,36 @@ class Information{
 		console.log('Entity:', req.params.entity);
 		console.log('ID:', req.params.id);
 		if(req.body.password=="passworddelete"){
-		for (let i = 0; i < this.json.length; i++) {
-		  	if(this.json[i].id==req.params.id && this.json[i]["@type"]==req.params.entity){
-		  		//console.log(this.json[i]);
-		  		this.json.splice(i, 1);
-		  		console.log(this.json);
-		  		fs.writeFile('data.json', JSON.stringify(this.json, undefined, 2), (err) => {
-				  if (err) throw err;
-				  console.log('The file has been saved!');
-				  res.status(200).send("Delete correctly");
-				});
-		  		break;
-		  	}
-		  }
+		if(req.params.entity=="TVSeries"){
+			for (let i = 0; i < this.series.length; i++) {
+			  	if(this.series[i].id==req.params.id){
+			  		console.log(this.series[i]);
+			  		this.series.splice(i, 1);
+			  		break;
+			  	}
+			}
+		}else if(req.params.entity=="Article"){
+			for (let i = 0; i < this.articles.length; i++) {
+			  	if(this.articles[i].id==req.params.id){
+			  		this.articles.splice(i, 1);
+			  		break;
+			  	}
+			  }
+		}
+		let guardar=[];
+			for (let i = 0; i < this.series.length; i++) {
+				guardar.push(this.series[i].getJSON());
+			}
+			for (let i = 0; i < this.articles.length; i++) {
+				guardar.push(this.articles[i].getJSON());
+			}
+			
+			console.log(guardar);
+			fs.writeFile('./model/data.json', JSON.stringify(guardar, undefined, 2), (err) => {
+			  if (err) throw err;
+			  console.log('The file has been saved!');
+			});
+		res.send("Delte corrrectly");
 		}else{
 			res.send("Wrong password");
 		}

@@ -47,6 +47,7 @@ class TVSerie:
         i=0
         for ep in self.episode:
             self.episode[i].number_of_episode=up_entity.episode[i].number_of_episode
+            i=i+1
 
     def convert_json(self):
         result=({
