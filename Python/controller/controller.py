@@ -128,18 +128,22 @@ def work_entity_id(entity,id):
                         html = html + article.convert_html()
                         return html
     elif request.method == 'PUT':
-        jsonput = json.loads(request.form['updateEntity'])
-        print(jsonput['@type'])
-        print(jsonput['@type'])
+        print(request.form)
+        print(request.form['updateEntity[@type]'])
+        #jsonput = json.loads(request.form['updateEntity'])
+        #print(jsonput['@type'])
+        #print(jsonput['@type'])
         password = request.form['password']
         if password=="passwordput":
             res=""
+            update=""
             if entity == 'TVSeries':
                 try:
-                    jsonput['episode']
+                    print(request.form['updateEntity[numberOfEpisodes]'])
+                    update = TVSerie(request.form['updateEntity[@context]'], request.form['updateEntity[@type]'],request.form['updateEntity[id]'], request.form['updateEntity[numberOfEpisodes]'],request.form['updateEntity[numberOfSeasons]'],request.form['updateEntity[startDate]'],None)
                 except KeyError:
-                    jsonput['episode'] = None
-                update = TVSerie(jsonput['@context'],jsonput['@type'], jsonput['id'], jsonput['numberOfEpisodes'],jsonput['numberOfSeasons'], jsonput['startDate'],jsonput['episode'])
+                    print("Something wrong")
+                print("aqui")
                 res = update.is_valid()
                 if res=="":
                     for show in series.series:
@@ -157,7 +161,7 @@ def work_entity_id(entity,id):
                 else:
                     return res
             elif entity == 'Article':
-                update = Article(jsonput['@context'],jsonput['@type'], jsonput['id'], jsonput['name'], jsonput['articleSection'])
+                update = Article(request.form['updateEntity[@context]'],request.form['updateEntity[@type]'], request.form['updateEntity[id]'], request.form['updateEntity[name]'], request.form['updateEntity[articleSection]'])
                 res = update.is_valid()
                 if res == "":
                     for article in articles.articles:

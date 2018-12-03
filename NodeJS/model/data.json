@@ -39,13 +39,13 @@
     "@context": "http://schema.org",
     "@type": "TVSeries",
     "id": "9",
-    "numberOfEpisodes": "4",
+    "numberOfEpisodes": "10",
     "numberOfSeasons": "1",
     "startDate": "2020-5-3",
     "episode": [
       {
         "@type": "Episode",
-        "episodeNumber": "3"
+        "episodeNumber": "4"
       },
       {
         "@type": "Episode",
