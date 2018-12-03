@@ -89,15 +89,21 @@ class operaciones{
 		    // la respuesta es pasada como argumento a la función
 		    success : function(response,status) {
 				console.log(response);
-	      	$("#selectEntityParameter").hide();
-      		$("#selectIDParameter").hide();
-      		$("#showOption").html('<textarea class="form-control" rows="10" name="jsonput" id="jsonput"></textarea>');
-      		if(locationServer!="http://156.35.95.85:8081"){
-				let data=JSON.parse(response);
-				console.log(data);
-				document.getElementById('jsonput').value = JSON.stringify(data, undefined, 2);
-			}else
-      		document.getElementById('jsonput').value = JSON.stringify(response, undefined, 2);
+				if(response="Wrong id introduced"){
+					alert(response);
+					$("#panelExecution").hide();
+				}else{
+			      	$("#selectEntityParameter").hide();
+		      		$("#selectIDParameter").hide();
+		      		$("#showOption").html('<textarea class="form-control" rows="10" name="jsonput" id="jsonput"></textarea>');
+		      		if(locationServer!="http://156.35.95.85:8081"){
+						let data=JSON.parse(response);
+						console.log(data);
+						document.getElementById('jsonput').value = JSON.stringify(data, undefined, 2);
+					}else
+		      		document.getElementById('jsonput').value = JSON.stringify(response, undefined, 2);
+
+		      	}
 	      },
 	      	error : function(xhr, status) {
 		        alert('Disculpe, existió un problema');

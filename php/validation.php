@@ -3,22 +3,31 @@
 class TVSerie{
 
 	function __construct($entity){
+		$this->context=$entity["@context"];
 		$this->entity=$entity["@type"];
 		$this->id=$entity["id"];
 		$this->numberOfEpisodes=$entity["numberOfEpisodes"];
 		$this->numberOfSeasons=$entity["numberOfSeasons"];
 		$this->startDate=$entity["startDate"];
 		$this->episode=$entity["episode"];
+		//$this->episode=array();
+		/*if(isset($entity["episode"])){
+			if(isset($entity["episode"]["@type"])){
+				array_push($this->episode,new Episode($entity["episode"]));
+			}else{
+				foreach($entity["episode"] as $valor){
+					array_push($this->episode,new Episode($valor));
+				}
+			}
+		}*/
 	}
 
-	public function isValid($data){
-
-		for ($i = 0; $i < sizeof($data); $i++) {
-	          if($data[$i]["@type"] == $this->entity && $data[$i]["id"] == $this->id){
+	public function isValid($series){
+		foreach ($series as $valor) {
+            if($valor->id == $this->id){
 	              return "ID already exists";
 	            }
-	        }
-
+          }
 		if($this->numberOfEpisodes == 0){
   				return "Wrong numberOfEpisodes introduced";
   		}
@@ -28,6 +37,7 @@ class TVSerie{
   		if($this->startDate == "" || $this->startDate == "date"){
   				return "Wrong startDate introduced";
   		}
+  		print_r("aAAAAA");
   		if(isset($this->episode)){
   			$validEpisode="";
 			if($this->episode["@type"] != "Episode"){
@@ -45,6 +55,7 @@ class TVSerie{
 					return $validEpisode;
 	        }
 	    }
+	    print_r("aAAAAA");
   		return "";
 	}
 
@@ -79,6 +90,30 @@ class TVSerie{
   		return "";
 	}
 
+	public function getJSON(){
+			if(isset($this->episode)){
+				$result=array(
+                    '@context'=> $this->context,
+                    '@type'=> $this->entity,
+                    'id'=> $this->id,
+                    'numberOfEpisodes'=> $this->numberOfEpisodes,
+                    'numberOfSeasons'=> $this->numberOfSeasons,
+                    'startDate'=>$this->startDate,
+                    'episode'=>$this->episode
+                );
+			}else{
+				$result=array(
+                    '@context'=> $this->context,
+                    '@type'=> $this->entity,
+                    'id'=> $this->id,
+                    'numberOfEpisodes'=> $this->numberOfEpisodes,
+                    'numberOfSeasons'=> $this->numberOfSeasons,
+                    'startDate'=>$this->startDate
+                );
+			}
+			return $result;
+	}
+
 	public function getHTML(){
 		$result='<h2>ID: '.$this->id.'</h2><p>Num episodios: '.$this->numberOfEpisodes.'</p><p>Num temporadas: '.$this->numberOfSeasons.'</p>';
 		$result=$result.'<p>'.$this->startDate.'</p>';
@@ -105,10 +140,19 @@ class TVSerie{
 		return $result;
   		
 	}
+
+	public function update($TVSerie){
+		$this->id=$TVSerie->id;
+		$this->numberOfEpisodes=$TVSerie->numberOfEpisodes;
+		$this->numberOfSeasons=$TVSerie->numberOfSeasons;
+		$this->startDate=$TVSerie->startDate;
+		$this->episode=$TVSerie->episode;
+	}
 }
 
 class Episode extends TVSerie{
 	function __construct($entity){
+		//print_r($entity);
 		$this->entity=$entity["@type"];
 		$this->episodeNumber=$entity["episodeNumber"];
 	}
@@ -133,6 +177,7 @@ class Episode extends TVSerie{
 class Article{
 
 	function __construct($newEntity){
+		$this->context=$newEntity["@context"];
 		$this->entity=$newEntity["@type"];
 		$this->id=$newEntity["id"];
 		$this->name=$newEntity["name"];
@@ -169,6 +214,23 @@ class Article{
 	public function getHTML(){
 		$result='<h2>ID: '.$this->id.'</h2><p>Name: '.$this->name.'</p><p>Article section: '.$this->articleSection.'</p>';
 		return $result;
+	}
+	public function getJSON(){
+			$result=array(
+                    '@context'=> $this->context,
+                    '@type'=> $this->entity,
+                    'id'=> $this->id,
+                    'name'=> $this->name,
+                    'articleSection'=> $this->articleSection
+               );
+			
+			return $result;
+	}
+
+	public function update($TVSerie){
+		$this->id=$TVSerie->id;
+		$this->name=$TVSerie->name;
+		$this->articleSection=$TVSerie->articleSection;
 	}
 }
 
