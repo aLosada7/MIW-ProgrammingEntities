@@ -139,7 +139,6 @@ def work_entity_id(entity,id):
             update=""
             if entity == 'TVSeries':
                 try:
-                    print(request.form['updateEntity[numberOfEpisodes]'])
                     update = TVSerie(request.form['updateEntity[@context]'], request.form['updateEntity[@type]'],request.form['updateEntity[id]'], request.form['updateEntity[numberOfEpisodes]'],request.form['updateEntity[numberOfSeasons]'],request.form['updateEntity[startDate]'],None)
                 except KeyError:
                     print("Something wrong")
