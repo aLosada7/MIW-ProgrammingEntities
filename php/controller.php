@@ -1,11 +1,11 @@
 <?php
-require_once './validation.php';
+require_once './model/Schema.php';
 class Operaciones{
 
 	private $characters;
 
 	function __construct(){
-		$url = 'data.json'; // path to your JSON file
+		$url = './model/data.json'; // path to your JSON file
 		$data = file_get_contents($url); // put the contents of the file into a variable
 		$this->characters = json_decode($data,true); // decode the JSON feed
     $this->series=array();
@@ -26,10 +26,10 @@ class Operaciones{
   	public function getAPI(){
   		$language=substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
 	      if($language=="es"){
-	        $urlInformationEs = 'informacion.html'; // path to your JSON file
+	        $urlInformationEs = './model/informacion.html'; // path to your JSON file
 	        return file_get_contents($urlInformationEs);
 	      }else{
-	        $urlInformationEn = 'information.html'; // path to your JSON file
+	        $urlInformationEn = './model/information.html'; // path to your JSON file
 	        return file_get_contents($urlInformationEn);
 	      }
   	}
@@ -142,12 +142,13 @@ class Operaciones{
   		
   		if($newEntity["@type"]=="TVSeries"){
         $TVSerie=new TVSerie($newEntity);
-        //$var=$TVSerie->isValid($this->series);
-        array_push($this->series, $TVSerie);
+        $var=$TVSerie->isValid($this->series);
+        if($var!="")
+          array_push($this->series, $TVSerie);
   			
   		}else{
   			$Article=new Article($newEntity);
-        //$var=$Article->isValid($this->articles);
+        $var=$Article->isValid($this->articles);
         if($var==""){
           array_push($this->articles, $Article);
         }
@@ -161,7 +162,7 @@ class Operaciones{
        foreach ($this->articles as $valor) {
                array_push($result, $valor->getJSON());
           }
-          file_put_contents('data.json', json_encode($result));
+          file_put_contents('./model/data.json', json_encode($result));
           echo "Posted correctly";
   		}else{
   			 echo $var;
@@ -204,7 +205,7 @@ class Operaciones{
        foreach ($this->articles as $valor) {
                array_push($result, $valor->getJSON());
           }
-          file_put_contents('data.json', json_encode($result));
+          file_put_contents('./model/data.json', json_encode($result));
           echo "Delete correctly";
 		    
 		 }else{
@@ -246,7 +247,7 @@ class Operaciones{
            foreach ($this->articles as $valor) {
                    array_push($result, $valor->getJSON());
               }
-          file_put_contents('data.json', json_encode($result));
+          file_put_contents('./model/data.json', json_encode($result));
           echo "Updated successfully";
         }else{
            echo "Wrong data introduced";

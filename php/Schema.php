@@ -28,15 +28,17 @@ class TVSerie{
 	              return "ID already exists";
 	            }
           }
-		if($this->numberOfEpisodes == 0){
+
+		if($this->numberOfEpisodes == 0 || $this->numberOfEpisodes=="integer"){
   				return "Wrong numberOfEpisodes introduced";
   		}
-  		if($this->numberOfSeasons == 0){
+  		if($this->numberOfSeasons == 0 || $this->numberOfSeasons=="integer"){
   				return "Wrong numberOfSeasons introduced";
   		}
   		if($this->startDate == "" || $this->startDate == "date"){
   				return "Wrong startDate introduced";
   		}
+  		return "";
   		print_r("aAAAAA");
   		if(isset($this->episode)){
   			$validEpisode="";
@@ -184,13 +186,13 @@ class Article{
 		$this->articleSection=$newEntity["articleSection"];
 	}
 
-	public function isValid($data){
+	public function isValid($articles){
 
-		for ($i = 0; $i < sizeof($data); $i++) {
-	          if($data[$i]["@type"] == $this->entity && $data[$i]["id"] == $this->id){
+		foreach ($articles as $valor) {
+            if($valor->id == $this->id){
 	              return "ID already exists";
 	            }
-	        }
+          }
 
 		if($this->name == ""){
   				return "Wrong name introduced";

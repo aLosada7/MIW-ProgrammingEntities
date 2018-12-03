@@ -53,7 +53,7 @@ def work_entity(entity):
             else:
                 return res
         elif entity=='Article':
-            article=Article(jsonput['@context'],jsonpost['@type'], jsonpost['id'], jsonpost['name'], jsonpost['articleSection'])
+            article=Article(jsonpost['@context'],jsonpost['@type'], jsonpost['id'], jsonpost['name'], jsonpost['articleSection'])
             res = article.valid_id(series.series)
             if res == "":
                 res = article.is_valid()
@@ -129,6 +129,7 @@ def work_entity_id(entity,id):
                         return html
     elif request.method == 'PUT':
         jsonput = json.loads(request.form['updateEntity'])
+        print(jsonput['@type'])
         print(jsonput['@type'])
         password = request.form['password']
         if password=="passwordput":

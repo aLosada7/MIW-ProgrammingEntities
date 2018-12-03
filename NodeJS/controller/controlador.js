@@ -16,10 +16,6 @@ class Information{
 				this.articles.push(new Article(this.json[i]));
 			}
 		}
-
-		for(let i=0; i < this.series.length;i++){
-			console.log(this.series[i]);
-		}
 	}
 
 

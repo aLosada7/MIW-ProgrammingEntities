@@ -89,7 +89,7 @@ class operaciones{
 		    // la respuesta es pasada como argumento a la función
 		    success : function(response,status) {
 				console.log(response);
-				if(response="Wrong id introduced"){
+				if(response=="Wrong id introduced"){
 					alert(response);
 					$("#panelExecution").hide();
 				}else{

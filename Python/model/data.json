@@ -15,7 +15,7 @@
     "@context": "http://schema.org",
     "@type": "TVSeries",
     "id": "2",
-    "numberOfEpisodes": "26",
+    "numberOfEpisodes": "25",
     "numberOfSeasons": "2",
     "startDate": "2017-10-15"
   },

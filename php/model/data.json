@@ -15,7 +15,7 @@
     "@context": "http://schema.org",
     "@type": "TVSeries",
     "id": "2",
-    "numberOfEpisodes": "25",
+    "numberOfEpisodes": "26",
     "numberOfSeasons": "2",
     "startDate": "2017-10-15"
   },
@@ -23,7 +23,7 @@
     "@context": "http://schema.org",
     "@type": "TVSeries",
     "id": "4",
-    "numberOfEpisodes": "3",
+    "numberOfEpisodes": "4",
     "numberOfSeasons": "2",
     "startDate": "2020-5-3"
   },
@@ -39,13 +39,13 @@
     "@context": "http://schema.org",
     "@type": "TVSeries",
     "id": "9",
-    "numberOfEpisodes": "5",
+    "numberOfEpisodes": "4",
     "numberOfSeasons": "1",
     "startDate": "2020-5-3",
     "episode": [
       {
         "@type": "Episode",
-        "episodeNumber": "2"
+        "episodeNumber": "3"
       },
       {
         "@type": "Episode",

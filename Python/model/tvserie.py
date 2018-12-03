@@ -65,7 +65,7 @@ class TVSerie:
                     'episodeNumber': self.episode[0].number_of_episode
                 }
                 })
-            else:
+            elif len(self.episode) > 1:
                 vect = []
                 for ep in self.episode:
                     vect.append({
@@ -74,7 +74,8 @@ class TVSerie:
                         })
                 print(vect)
                 result.update({"episode":vect})
-
+            else:
+                return result
         return result
 
 
@@ -82,7 +83,7 @@ class TVSerie:
         result="<h2>ID: "+self.id+"</h2><p>N episodes: "+self.number_of_episodes+"</p><p>N seasons: "+self.number_of_seasons+"</p><p>Start date: "+self.start_date+"</p>"
         for ep in self.episode:
             result=result+ep.convert_html()
-        return result;
+        return result
 
 class Episode(TVSerie):
     def __init__(self, entity, number_of_episode):
